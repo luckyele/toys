@@ -1,3 +1,5 @@
+#coding:utf-8
+
 def info(object, spacing=10, collapse=1):
     """aaaaa
     """
