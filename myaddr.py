@@ -15,7 +15,7 @@ class Contact():
     def __init__(self):
         self.personlist = []
 
-    def openexitsaddress(self):
+    def open_exits_address(self):
         try:
             f = open("./address.txt", "r")
         except:
@@ -34,7 +34,7 @@ class Contact():
         p = Person()
         return p
     
-    def delperson(self, p):
+    def del_person(self, p):
         if len(self.personlist) > 0:
             self.personlist.remove(p)
             self.modifyflag = True
@@ -67,7 +67,7 @@ class Contact():
         if self.modifyflag:
             f = open("./address.txt","w")
             for p in self.personlist:
-                m,t = p.name, p.tele
+                m, t = p.name, p.tele
                 seq = m + "\t" + t + "\n"
                 f.write(seq)
             f.close()
@@ -106,14 +106,34 @@ def menu_bottom(contact):
 
 def menu1(contact):
     
-    maxpersonofapage = 20
+    max_person_of_a_page = 20
     
     menu_top()
 
-    if contact.personlist.__len__() > maxpersonofapage:
+    if contact.personlist.__len__() > max_person_of_a_page:
         contact.list()
     menu_bottom(contact)
-    
+
+def del_person(contact):
+    index = raw_input("Which do you want to delete? ")
+    try:
+        index = int(index)
+    except:
+        print("Index error.")
+        return
+    try:
+        p = contact.personlist[index-1]
+    except:
+        print("Index error.")
+        return
+    contact.del_person(p)
+
+def modify_person(contact):
+    index = raw_input("which do you want to modify? ")
+    name = raw_input("Name:")
+    tele = raw_input("Tele:")
+    contact.modify(int(index)-1, name, tele)
+
 def test1():
 
     mycontact = Contact()
@@ -129,35 +149,16 @@ def test1():
                 newperson = mycontact.new()
                 mycontact.add(newperson)
         elif a is 'm' or a is 'M':
-            index = raw_input("which do you want to modify? ")
-            name = raw_input("Name:")
-            tele = raw_input("Tele:")
-            mycontact.modify(int(index)-1, name, tele)
-        
+            modify_person(mycontact)
         elif a is 'q' or a is 'Q':
             mycontact.save2file()
             return
-
         elif a is 's' or a is 'S':
             pass
-
         elif a is 'i' or a is 'I':
-            mycontact.openexitsaddress()
-
+            mycontact.open_exits_address()
         elif a is 'd' or a is 'D':
-            index = raw_input("Which do you want to delete? ")
-            try:
-                index = int(index)
-            except:
-                print("Index error.")
-                break
-            try:
-                p = mycontact.personlist[index-1]
-            except:
-                print("Index error.")
-                break
-            mycontact.delperson(p)
-
+            del_person(mycontact)
         else:
             pass
 
