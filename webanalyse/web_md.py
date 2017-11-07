@@ -1,23 +1,29 @@
+
 import hashlib
-import urllib2
+
+# For compatible of Python2.7 and Python 3.x
+try:
+    import urllib2 as ur
+
+except:
+    import urllib.request as ur
+
 import time, os
+
 
 def open_webpage(url):
     try:
-        page = urllib2.urlopen(url).read()
+        page = ur.urlopen(url).read()
     except:
-        print 'webpage cann\'t open.'
+        print('webpage cann\'t open.')
     return page
-    
+
 def webpage_is_updated(webpage, md_old_hex):
-    md_new = hashlib.md5()
-    md_new.update(webpage)
-            
-    if md_new.hexdigest() == md_old_hex:
+    if gen_MD_from(webpage) == md_old_hex:
         return False
     return True
 
-def gen_MD_from_webpage(webpage):
+def gen_MD_from(webpage):
     md_tmp = hashlib.md5()
     md_tmp.update(webpage)
     return md_tmp.hexdigest()
@@ -41,6 +47,8 @@ def get_MD():
     f.close() 
     return url_md_list
 
+   
+   
 if __name__ == '__main__':
 
     url_list = {'anhuiwht':'http://www.ahwh.gov.cn/zz/shwhc/',
@@ -53,11 +61,11 @@ if __name__ == '__main__':
         
     for n, u in url_list.items():
         p = open_webpage(u)
-        md = gen_MD_from_webpage(p)
-        print time_stamp(), n, u, md
-        save_MD(n,md)
+        md = gen_MD_from(p)
+        print(time_stamp(), n, u, md)
+#        save_MD(n,md)
         if webpage_is_updated(p, urlmd[n]):
-            print 'webpage is udpated.'
+            print('webpage is udpated.')
         else:
-            print 'webpage isn\'t updated.'
+            print('webpage isn\'t updated.')
 

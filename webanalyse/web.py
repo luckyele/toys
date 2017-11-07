@@ -1,12 +1,12 @@
 #! /usr/lib/python
 #coding:utf-8
 
-import urllib2 
+import urllib.request 
 from bs4 import BeautifulSoup
 import jieba.analyse
 
 def analyse_web(url):
-    req = urllib2.urlopen(url)
+    req = urllib.request.urlopen(url)
     f = req.read().decode('gb2312', 'ignore').encode('utf-8')
     req.close()
 
@@ -27,5 +27,5 @@ if __name__ == "__main__":
     for url in [ahwht1,ahwht2,ahwht3,ahwht4]:
         print("Result of analyse: %s"%url)
         for s in analyse_web(url):
-            print(s)
+            print(str(s))
 
