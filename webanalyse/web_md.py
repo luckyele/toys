@@ -54,7 +54,8 @@ if __name__ == '__main__':
     url_list = {'anhuiwht':'http://www.ahwh.gov.cn/zz/shwhc/',
                 'hfswgxj':'http://swhj.hefei.gov.cn/4964/4977/',
                 'whbggwhs':'http://www.mcprc.gov.cn/whzx/bnsjdt/ggwhs/',
-                'beijingwhj':'http://www.bjwh.gov.cn/bjwh/whzx/qwdt85/index.html'
+                'beijingwhj':'http://www.bjwh.gov.cn/bjwh/whzx/qwdt85/index.html',
+                'ahsuzhouwgxj':'http://www.whsz.org/news.asp?id=%C9%E7%BB%E1%CE%C4%BB%AF'
                 }
 
     urlmd = get_MD()
@@ -63,9 +64,10 @@ if __name__ == '__main__':
         p = open_webpage(u)
         md = gen_MD_from(p)
         print(time_stamp(), n, u, md)
-#        save_MD(n,md)
+        save_MD(n,md)
         if webpage_is_updated(p, urlmd[n]):
-            print('webpage is udpated.')
+            save_MD(n, md)
+            print(n,'is udpated.')
         else:
-            print('webpage isn\'t updated.')
+            print(n,'isn\'t updated.')
 
