@@ -46,7 +46,6 @@ def get_MD():
         url_md_list[name] = md5
     f.close() 
     return url_md_list
-
    
    
 if __name__ == '__main__':
@@ -64,7 +63,7 @@ if __name__ == '__main__':
         p = open_webpage(u)
         md = gen_MD_from(p)
         print(time_stamp(), n, u, md)
-        save_MD(n,md)
+#        save_MD(n,md)
         if webpage_is_updated(p, urlmd[n]):
             save_MD(n, md)
             print(n,'is udpated.')
