@@ -4,11 +4,13 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import requests
 import time
+import csv
 
-def search_result(bsObj):
+
+def get_book_num(bsObj):
     result = bsObj.find('div', id='search_meta')\
-        .div.get_text().split(',')[1].lstrip()
-    return result
+        .div.get_text().split(":")[2].split(" ")[1].replace(",","",3)
+    return int(result)
 
 def next_page(bsObj):
     host = "http://opac.ahlib.com/"
@@ -25,12 +27,21 @@ def open_new_page(url):
     bsObj = BeautifulSoup(r.read(), "html.parser")
     return bsObj
 
+def save_book(rows):
+    csvFile = open("books.csv", "w+")
+    try:
+        writer = csv.writer(csvFile)
+        writer.writerow(('No.', 'Book_id', 'Book_name'))
+        for row in rows:
+            writer.writerow(row)
+    finally:
+        csvFile.close()
+
 def get_all_book():
 
     ahlib_url="http://opac.ahlib.com/opac/search"
-    hflib_url="http://opac.hflib.gov.cn/lib2/search"
 
-    param = {"q":"c",
+    param = {"q":"python",
             "searchWay":"title",
             "scWay":"dim",
             "searchSource":"reader"}
@@ -39,11 +50,12 @@ def get_all_book():
     bsObj = BeautifulSoup(r.text, "html.parser")
     pagenum = get_total_pages(bsObj)
 
-    booknum = int(search_result(bsObj)[5:-4].replace(',','',1))
+    booknum = get_book_num(bsObj)
     print('----------------------')
     print('from %s find %d books.'%(ahlib_url, booknum))
     print('----------------------')
-    
+
+    rows = []    
     for j in range(pagenum):
         tb = bsObj.find('table', class_='resultTable')
         books = tb.find_all("tr")
@@ -53,14 +65,16 @@ def get_all_book():
             book_title = book.find("span").a.string.lstrip().rstrip().strip('/')
             book_id = book.find('span', class_='callnosSpan').string
             print("%4d %25s %s"%(j*10+i+1, book_id, book_title))
+            rows.append((j*10+i+1, book_id, book_title))
             i += 1
         
         time.sleep(3)
-        if j == 15:
-            return 
+        if j == pagenum-1:
+            break 
         else:
             next_page_url = next_page(bsObj)
             bsObj = open_new_page(next_page_url+str(j+2))
+    save_book(rows)
 
 if __name__ == '__main__':
     get_all_book()    
