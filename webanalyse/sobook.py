@@ -12,19 +12,29 @@ def get_book_num(bsObj):
         .div.get_text().split(":")[2].split(" ")[1].replace(",","",3)
     return int(result)
 
-def next_page(bsObj):
-    host = "http://opac.ahlib.com/"
+def next_page(bsObj, url):
+    if "ah" in url:
+        host = "http://opac.ahlib.com"
+    else:
+        host = "http://opac.hflib.gov.cn"
     next_page_url = bsObj.find("div", class_="meneame")\
         .find("a")['href'][0:-1]
     return host+next_page_url
     
 def get_total_pages(bsObj):
     page_total = bsObj.find("span", class_="disabled").string[3:-1]
-    return(int(page_total))
+    return int(page_total)
 
 def open_new_page(url):
-    r = urlopen(url)
-    bsObj = BeautifulSoup(r.read(), "html.parser")
+    param = {"q":"python","searchWay":"title"}
+
+    headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Itel Max OS X 10-9-5)\
+                             AppleWebKit 537.36 (KHTML, like Gecko) Chrome",
+               "Accept":"text/html, appliation/xhtml+xml, application/xml;\
+                        q=0.9,image/webp,*/*;q=0.8"}
+
+    r = requests.get(url, param, headers=headers)
+    bsObj = BeautifulSoup(r.text, "html.parser")
     return bsObj
 
 def save_book(rows):
@@ -37,22 +47,21 @@ def save_book(rows):
     finally:
         csvFile.close()
 
-def get_all_book():
+def get_book_msg(bsObj):
 
-    ahlib_url="http://opac.ahlib.com/opac/search"
-
-    param = {"q":"python",
-            "searchWay":"title",
-            "scWay":"dim",
-            "searchSource":"reader"}
+    book_title = bsObj.find("span",class_= "bookmetaTitle")\
+                .a.string.lstrip().strip('/').rstrip()
+    book_id = bsObj.find("span", class_="callnosSpan").string
+    return book_id, book_title
     
-    r = requests.get(ahlib_url, param)
-    bsObj = BeautifulSoup(r.text, "html.parser")
-    pagenum = get_total_pages(bsObj)
+def get_all_book(lib_url):
 
+    bsObj = open_new_page(lib_url)
+    pagenum = get_total_pages(bsObj)
     booknum = get_book_num(bsObj)
+
     print('----------------------')
-    print('from %s find %d books.'%(ahlib_url, booknum))
+    print('from %s find %d books.'%(lib_url, booknum))
     print('----------------------')
 
     rows = []    
@@ -62,19 +71,22 @@ def get_all_book():
 
         i = 0 
         for book in books:
-            book_title = book.find("span").a.string.lstrip().rstrip().strip('/')
-            book_id = book.find('span', class_='callnosSpan').string
+            book_id, book_title = get_book_msg(book)
             print("%4d %25s %s"%(j*10+i+1, book_id, book_title))
             rows.append((j*10+i+1, book_id, book_title))
             i += 1
         
-        time.sleep(3)
+        time.sleep(5)
+
         if j == pagenum-1:
             break 
         else:
-            next_page_url = next_page(bsObj)
+            next_page_url = next_page(bsObj, lib_url)
             bsObj = open_new_page(next_page_url+str(j+2))
     save_book(rows)
 
 if __name__ == '__main__':
-    get_all_book()    
+   
+    ahlib_url="http://opac.ahlib.com/opac/search"
+    hflib_url="http://opac.hflib.gov.cn/lib2/search"
+    get_all_book(hflib_url)   
