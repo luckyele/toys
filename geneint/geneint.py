@@ -1,15 +1,15 @@
 from random import randint, choice
-
+import collections
+import array
 
 import cProfile
-
 
 def read():
     return int(input())
 
 def generate_int(k):
     aint = []
-
+    
     while True:
         if len(aint) == k:
             break
@@ -19,9 +19,23 @@ def generate_int(k):
     return aint     
 
 def generate_int2(k):
-
     aint = []
     bint = []
+
+    bint = [i for i in range(1, k+1)]
+
+    while True:
+        if len(bint) == 0:
+            break
+        a = choice(bint)
+        bint.remove(a)      
+        aint.append(a)
+
+    return aint
+
+def generate_int3(k):
+    aint = []
+    bint = collections.deque() 
 
     for i in range(1, k+1):
         bint.append(str(i))
@@ -34,7 +48,6 @@ def generate_int2(k):
         aint.append(a)
 
     return aint
-    
 
 def save(a):
     f = open('data.txt', 'w')
@@ -46,11 +59,8 @@ def save(a):
     f.close()
     print("total write %d items to files."%len(a))
 
-
 def main():
-    k = read()  
-    save(generate_int2(k))
-
+    save(generate_int2(read()))
 
 if __name__ == "__main__":
     cProfile.run('main()')

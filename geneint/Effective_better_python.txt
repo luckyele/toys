@@ -1,0 +1,16 @@
+Effective Better Python
+
+item1: Know Whick Version of Python You're Using
+       $ python3 --version
+
+item2: Follow the PEP8 Style Guide
+
+item3: Know the Different Between bytes, str and unicode
+
+item4: Write Helper Functions Instead of Comples Expression
+
+item5: Know How to slice Sequences
+
+item6: Avoid using start, end, and stride in a Single Slice
+
+item7: Use List comprehensions instead of map and filter
