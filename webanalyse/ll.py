@@ -1,0 +1,5 @@
+import sqlhelper
+
+sqlhelper.test()
+
+

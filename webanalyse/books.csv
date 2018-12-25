@@ -1,28 +1,41 @@
 No.,Book_id,Book_name
 1,,机器学习：Python实践
-2,,Python开发实战
-3,,Python入门经典
-4,,Python网络数据采集
-5,,Python核心编程
-6,,趣学Python：教孩子学编程
-7,,趣学Python：教孩子学编程
-8,,Python基础教程：第2版
-9,,PYTHON技术手册：第2版
-10,,Python机器学习实践指南
-11,,树莓派Python编程指南
-12,,用Python写网络爬虫
-13,,Python语言程序设计：英文版
-14,,物联网Python开发实战
-15,,Python神经网络编程
-16,,跟老齐学Python：Django实战
-17,,Python硬件编程实战
-18,,Python游戏编程入门
-19,,程序设计导论：Python语言实践：an interdisciplinary approach
-20,,Python机器学习：预测分析核心算法：essential techniques for predictive analysis
-21,,"精通Python网络爬虫：核心技术、框架与项目实战：core technology, frame and practices"
-22,,Python数据分析从入门到精通
-23,,零起点Python大数据与量化交易
-24,,贝叶斯思维：统计建模的Python学习法
-25,,"Python金融衍生品大数据分析：建模、模拟、校准与对冲：data analysis, models, simulation, calibration and hedging"
-26,,Python大战机器学习：数据科学家的第一个小目标
-27,,量化交易之路：用Python做股票量化分析
+2,,程序员学Python
+3,,Python开发实战
+4,,Python入门经典
+5,,Python贝叶斯分析
+6,,Python趣味编程10例
+7,,Python程序设计
+8,,Python黑客攻防入门
+9,,Python核心编程
+10,,Python网络数据采集
+11,,趣学Python：教孩子学编程
+12,,趣学Python：教孩子学编程
+13,,Python基础教程：第2版
+14,,PYTHON技术手册：第2版
+15,,Python机器学习实践指南
+16,,树莓派Python编程指南
+17,,用Python写网络爬虫
+18,,Python语言程序设计：英文版
+19,,精通Python爬虫框架Scrapy
+20,,Python神经网络编程
+21,,物联网Python开发实战
+22,,Python数字信号处理应用
+23,,跟老齐学Python：Django实战
+24,,Python硬件编程实战
+25,,Python游戏编程入门
+26,,Python机器学习基础教程
+27,,程序设计导论：Python语言实践：an interdisciplinary approach
+28,,“笨办法”学Python 3：a very simple introduction to the terrifyingly beautiful world of computers and code
+29,,"精通Python网络爬虫：核心技术、框架与项目实战：core technology, frame and practices"
+30,,Python机器学习：预测分析核心算法：essential techniques for predictive analysis
+31,,深度学习：基于Keras的Python实践
+32,,Python 3网络爬虫开发实战
+33,,Python数据分析从入门到精通
+34,,零起点Python大数据与量化交易
+35,,利用Python开源工具分析恶意代码
+36,,编程超有趣：奇妙Python轻松学．第1辑：超级简单的基础知识
+37,,贝叶斯思维：统计建模的Python学习法
+38,,"Python金融衍生品大数据分析：建模、模拟、校准与对冲：data analysis, models, simulation, calibration and hedging"
+39,,Python大战机器学习：数据科学家的第一个小目标
+40,,量化交易之路：用Python做股票量化分析

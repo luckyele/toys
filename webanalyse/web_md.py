@@ -47,7 +47,6 @@ def get_MD():
     f.close() 
     return url_md_list
    
-   
 if __name__ == '__main__':
 
     url_list = {'anhuiwht':'http://www.ahwh.gov.cn/zz/shwhc/',
