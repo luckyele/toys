@@ -10,7 +10,7 @@ def create_table_in(db_name, table_name):
     conn, c = open_db(db_name)
     sql_str = "CREATE TABLE IF NOT EXISTS " + table_name + \
             "(ID INTEGER PRIMARY KEY AUTOINCREMENT,\
-            URL CHAR(255) NOT NULL,\
+            URL CHAR(255) ,\
             TITLE CHAR(255) NOT NULL)"
     c.execute(sql_str)
     conn.commit()
