@@ -31,7 +31,6 @@ class SQLite:
     def close(self):
         self.conn.close()
 
-
 def test():
     s = "mytest.db"
     t = "web_con"

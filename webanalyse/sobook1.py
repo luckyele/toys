@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import csv
-import sqlite3
+import sqlhelper1
 
 def get_book_num(bsObj):
     result = bsObj.find('div', id='search_meta')\
@@ -51,13 +51,25 @@ def save_book_to_db(rows):
     db_name = "booklib.db"
     tb_name = "book_python"
 
+    sql = sqlhelper1.SQLite(db_name, tb_name)
+    sql.create_table()
+
+    for row in rows:
+        if row[1] is None:
+            r = "\"\",\"" + row[2].decode('utf-8') + "\""
+        else:
+            r = "\"" + row[1] + "\"" + "\""+ row[2].decode('utf-8') + "\"" 
+        sql.insert_record(r)
+    
+    sql.select_all()
+    sql.close()
 
 def get_book_msg(bsObj):
 
     book_title = bsObj.find("span",class_= "bookmetaTitle")\
                 .a.string.lstrip().strip('/').rstrip()
     book_id = bsObj.find("span", class_="callnosSpan").string
-    return book_id, book_title
+    return book_id, book_title.encode('utf-8')
     
 def get_all_book(lib_url):
 
@@ -77,7 +89,7 @@ def get_all_book(lib_url):
         i = 0 
         for book in books:
             book_id, book_title = get_book_msg(book)
-            print("%4d %25s %s"%(j*10+i+1, book_id, book_title))
+            print("%4d %25s %s"%(j*10+i+1, book_id, book_title.decode('utf-8')))
             rows.append((j*10+i+1, book_id, book_title))
             i += 1
         
@@ -88,8 +100,9 @@ def get_all_book(lib_url):
         else:
             next_page_url = next_page(bsObj, lib_url)
             bsObj = open_new_page(next_page_url+str(j+2))
-    save_book(rows)
-#    save_book_to_db(rows)
+#    save_book(rows)
+    save_book_to_db(rows)
+
 if __name__ == '__main__':
    
     ahlib_url="http://opac.ahlib.com/opac/search"
