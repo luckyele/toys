@@ -16,7 +16,7 @@ def analyse_web(url):
         txt = k.get_text().strip('\n').strip(' ')
 
     #t_list1 = jieba.analyse.extract_tags(txt, topK=5, withWeight=False, allowPOS=())
-    t_list2 = jieba.analyse.textrank(txt, topK=5, withWeight=False, allowPOS=('ns', 'n', 'vn', 'v'))
+    t_list2 = jieba.analyse.textrank(txt, topK=10, withWeight=False, allowPOS=('ns', 'n', 'vn', 'v'))
     return t_list2
 
 if __name__ == "__main__":
