@@ -3,7 +3,6 @@ import os
 
 class SQLite:
     """A simple class for use sqlite3.
-    
     """
     def __init__(self, db_name, tb_name):
         self.database = db_name
@@ -15,6 +14,7 @@ class SQLite:
         sql_statement = "CREATE TABLE IF NOT EXISTS " + self.table + \
             "(ID INTEGER PRIMARY KEY AUTOINCREMENT,\
             URL CHAR(255) ,\
+            
             TITLE CHAR(255) NOT NULL)"
         self.c.execute(sql_statement)
         self.conn.commit()
