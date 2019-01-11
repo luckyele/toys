@@ -35,7 +35,6 @@ class Web:
         sql.select_all()
         sql.close()
 
-
 def test():
     rows=[] 
     row = []
