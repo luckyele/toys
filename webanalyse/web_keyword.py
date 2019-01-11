@@ -59,8 +59,9 @@ def test():
     print("Building a keywords resp....")
     for url in [ahwht1,ahwht2,ahwht3,ahwht4]:
         txt = get_page_text(url)
-       # print(front100_text(txt))
+        
         k_list =  page_keyword(txt,10)
+        print(k_list)
         pcs.add_keys(k_list)
     print("Building completed....") 
 
