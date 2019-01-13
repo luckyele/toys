@@ -1,6 +1,9 @@
 #-*- coding:utf-8 -*-
 #!/usr/bin/python3
 
+import sys
+sys.path.append("../")
+
 from sqlhelper import sqlhelper1
 from bs4 import BeautifulSoup
 import requests
@@ -11,7 +14,7 @@ class Web:
         self.bsObj = None
          
     def open(self, page_url):
-        r = requests.get(page_url) as r:
+        r = requests.get(page_url)
             # requests package guess encoding content of page_url, sometime it will
             # be wrong. so must set response encoding to 'utf-8'
         r.encoding = 'utf-8'
