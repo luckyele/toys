@@ -1,4 +1,4 @@
-#Already completed function:
+ completed function:
 
 1. article url for AHWH website.
 2. get article content 
