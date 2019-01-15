@@ -5,61 +5,43 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import requests
 
-class Web:
-    def __init__(self):
-        self.url = ''
-    
-    def get_obj(self, url):
-        header = {"User-Agent":"Mozilla/5.0 (Macintosh; Itel Max OS X 10-9-5)\
-                    AppleWebKit 537.36 (KHTML, like Gecko) Chrome",
-                    "Accept":"text/html, appliation/xhtml+xml, application/xml;\
-                    q=0.9,image/webp,*/*;q=0.8"}
-        r = requests.get(url, headers=header)
-        self.url = url
-        bsObj = BeautifulSoup(r.text, "html.parser")
-        return bsObj
+# import sys
+# sys.path.append("../")
 
-    def get_page_text(self):
-        pass
+from webmonkey import Webmonkey
 
-    def parser_page(self, obj):
-        rows = []
-        return rows
+class Anhuiweb(Webmonkey):
+	
+	def __init__(self):
+		# define the entrance and name of main website
+		self.url = "http://www.ahwh.gov.cn/zz/shwhc/gzdt5/"
+		self.website = "http://www.ahwh.gov.cn"
+		super().__init__(self.url, self.website)
 
-    def get_page_text(self, url):
-        pass
-
-    def get_url_list(self):
-        pass
-    
-    def print_url(self):
-        print(self.url)
-
-
-def get_url_list():
-    url = "http://www.ahwh.gov.cn/zz/shwhc/gzdt5/"
-    website = "http://www.ahwh.gov.cn"
-    url_list = []
-    url1 = url
-
-    for i in range(5):
-        print(i, url1)
-        r = get_obj(url1)
-        rows = parser_site(r)
-        
-        for row in rows:
-            url_list.append(website+row[2])
-
-        url1 = url+'index_%d.shtml'%(i+2)
-
-    return url_list
-
-
+	def parser_page(self, obj):
+		rows = []
+		trs = obj.find("div", {"class":"list"}).findAll("div", {"class":"tr"})
+		for tr in trs:
+			title = tr.find("div",class_="title").a["title"]
+			href = tr.find("div",class_="title").a["href"]
+			time = tr.find("div",class_="time").get_text()
+			rows.append((time, title, href))
+		return rows
+	
+	def get_url_list_first(self):
+		url_list = []
+		r = self.get_obj()
+		rows = self.parser_page(r)
+		for row in rows:
+			url_list.append(self.website + row[2])
+		return url_list
+		
 def test3():
-    url = "http://www.ahwh.gov.cn/zz/shwhc/gzdt5/"
-    web = Web()
-    obj = web.get_obj(url)
-    print(web.print_url())
+	web = Anhuiweb()
+	obj = web.get_obj()
+	for r in web.get_url_list_first():
+		print(r)
+
 
 if __name__ == "__main__":
-    test3()
+	test3()

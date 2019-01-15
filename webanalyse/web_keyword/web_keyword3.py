@@ -156,4 +156,4 @@ def test():
 		print(keywords_stat(pcs.keywords, k2.keywords))
 
 if __name__ == "__main__":
-	test2()
+	test()
