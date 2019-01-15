@@ -30,10 +30,7 @@ class Huaibeiweb(Webmonkey):
 	
 	def print_msg(self, msg):
 		# sourse: iso-8859-1, dest:gbk
-		if sys.platform == 'win32':
-			print(msg[0][0], msg[0][1], msg[0][2])
-		else:
-			print(msg)
+		print(msg[0][0], msg[0][1], msg[0][2])
 		
 def test3():
 	web = Huaibeiweb()

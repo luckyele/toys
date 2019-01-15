@@ -13,27 +13,30 @@ class Webmonkey:
 		
 	def get_obj(self):
 		'''Simulate web_browser to access website.'''
-		header = {"User-Agent":"Mozilla/5.0 (Macintosh; Itel Max OS X \
-				0-9-5) AppleWebKit 537.36 (KHTML, like Gecko) Chrome",
-				"Accept":"text/html, appliation/xhtml+xml, \
-				application/xml;q=0.9,image/webp,*/*;q=0.8"}
+		header = {
+			"User-Agent":
+				'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML,like\
+				Gecko) Chrome/48.0.2564.116 Safari/537.36',\
+			"Accept":
+				"text/html,appliation/xhtml+xml, \
+				application/xml;q=0.9,image/webp,*/*;q=0.8"\
+			}
 				
 		r = requests.get(self.url, headers=header)
 		if r is None:
 			r = urlopen(url)
-		print(r)
+
 		try:
 			bsObj = BeautifulSoup(r.text.encode("iso-8859-1").decode('utf-8'), "html.parser")
 		except:
 			bsObj = BeautifulSoup(r.text, "html.parser")
-		print(bsObj)
+		
 		return bsObj
 
 	def get_page_text(self):
 		pass
 
 	def parser_page(self, obj):
-		print("parser_page() doesn't finish.")
 		pass
 
 	def get_page_text(self, url):
@@ -41,5 +44,7 @@ class Webmonkey:
 
 	def get_url_list_first(self):
 		pass
-
-#classend
+	
+	def print_msg(self, msg):
+		print(msg[0][0], msg[0][1].encode("iso-8859-1").decode('gbk'), msg[0][2])
+	

@@ -26,12 +26,6 @@ class Anhuiweb(Webmonkey):
 		msg.append((time, title, self.website + href))
 		return msg
 	
-	def print_msg(self, msg):
-		# sourse: iso-8859-1, dest:gbk
-		if sys.platform == 'win32':
-			print(msg[0][0], msg[0][1].encode("iso-8859-1").decode('gbk'), msg[0][2])
-		else:
-			print(msg)
 		
 def test3():
 	web = Anhuiweb()
