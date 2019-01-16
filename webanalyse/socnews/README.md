@@ -27,5 +27,6 @@ def scheduling():
 def mailto():
 	pass
 
-
+4. 进度
+2019/1/16 完成9个市的网站分析及信息自动抓取
 
