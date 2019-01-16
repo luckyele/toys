@@ -52,5 +52,5 @@ class Webmonkey:
 		except:
 			print(msg[0][0], msg[0][1])
 			print(msg[0][2])
-		print('\n')
+#		print('\n')
 	

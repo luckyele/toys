@@ -1,18 +1,22 @@
 #! /usr/lib/python
 #coding:utf-8
 
-# import sys
-# sys.path.append("../")
-
-import anhuiweb as ah
-import bozhouweb as bzh
-import chuzhouweb as chzh
-import fuyangweb as fy
-import huainanweb as hn
-import huaibeiweb as hb
+import anhuiweb 	as ah
+import bozhouweb 	as bzh
+import chuzhouweb 	as chzh
+import fuyangweb 	as fy
+import huainanweb 	as hn
+import huaibeiweb 	as hb
 import huangshanweb as hsh
-import luanweb as luan
-import maanshanweb as msh
+import luanweb 		as luan
+import maanshanweb 	as msh
+import xuanchengweb as xch
+import anqingweb 	as anq
+import chizhouweb 	as chzh
+import tonglingweb 	as tl
+import bengbuweb 	as bb
+import wuhuweb 		as wh
+import suzhouweb 	as szh
 
 def scheduling(p_area):
 	web = p_area.Web()
@@ -24,7 +28,11 @@ def mailto(news):
 	pass
 
 def test():
-	for p_area in [ah,bzh,chzh,fy,hn,hb,hsh,luan,msh]:
+	msgs = [ah,\
+			      hb,  bzh, szh, bb,   fy,  hn,  chzh, \
+			luan, msh, wh,  tl,  chzh, anq, xch, hsh]
+
+	for p_area in msgs:
 		scheduling(p_area)
 
 if __name__=="__main__":
