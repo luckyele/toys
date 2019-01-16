@@ -9,26 +9,26 @@ import sys
 
 from webmonkey import Webmonkey
 
-class Anhuiweb(Webmonkey):
+class Web(Webmonkey):
 	
 	def __init__(self):
 		# define the entrance and name of main website
-		self.url = "http://www.ahwh.gov.cn/zz/shwhc/gzdt5/"
-		self.website = "http://www.ahwh.gov.cn"
+		self.url = "http://www.fywgxj.gov.cn/list.php?id=9"
+		self.website = "http://www.fywgxj.gov.cn/"
 		super().__init__(self.url, self.website)
 
 	def get_newest_message(self, obj):
 		msg = []
-		tr = obj.find("div", {"class":"list"}).find("div", {"class":"tr"})
-		title = tr.find("div",class_="title").a["title"]
-		href = tr.find("div",class_="title").a["href"]
-		time = tr.find("div",class_="time").get_text()
+		tr = obj.findAll("td", {"class":"list_title_l"})
+		title = tr[1].find("a").string
+		href = tr[1].find("a")["href"]
+		time = obj.findAll("td", {"class":"list_title_r"})[1].string
 		msg.append((time, title, self.website + href))
+	#	print(msg)
 		return msg
-	
 		
 def test3():
-	web = Anhuiweb()
+	web = Web()
 	obj = web.get_obj()
 	new = web.get_newest_message(obj)
 	web.print_msg(new)

@@ -47,7 +47,10 @@ class Webmonkey:
 	
 	def print_msg(self, msg):
 		try:
-			print(msg[0][0], msg[0][1].encode("iso-8859-1").decode('gbk'), msg[0][2])
+			print(msg[0][0], msg[0][1].encode("iso-8859-1").decode('gbk'))
+			print(msg[0][2])
 		except:
-			print(msg[0][0], msg[0][1], msg[0][2])
+			print(msg[0][0], msg[0][1])
+			print(msg[0][2])
+		print('\n')
 	
