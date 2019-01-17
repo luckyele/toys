@@ -21,9 +21,9 @@ class Webmonkey:
 				"text/html,appliation/xhtml+xml, \
 				application/xml;q=0.9,image/webp,*/*;q=0.8"\
 			}
-				
-		r = requests.get(self.url, headers=header)
-		if r is None:
+		try:			
+			r = requests.get(self.url, headers=header)	
+		except:
 			r = urlopen(url)
 
 		try:

@@ -29,7 +29,7 @@ def mailto(news):
 	pass
 
 def test():
-	msgs = [mct, ah,\
+	msgs = [ah,\
 			      hb,  bzh, szh, bb,   fy,  hn,  chzh, \
 			luan, msh, wh,  tl,  chzh, anq, xch, hsh]
 
