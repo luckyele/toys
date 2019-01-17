@@ -1,6 +1,7 @@
 #! /usr/lib/python
 #coding:utf-8
 
+import mctweb		as mct
 import anhuiweb 	as ah
 import bozhouweb 	as bzh
 import chuzhouweb 	as chzh
@@ -28,7 +29,7 @@ def mailto(news):
 	pass
 
 def test():
-	msgs = [ah,\
+	msgs = [mct, ah,\
 			      hb,  bzh, szh, bb,   fy,  hn,  chzh, \
 			luan, msh, wh,  tl,  chzh, anq, xch, hsh]
 
@@ -37,3 +38,8 @@ def test():
 
 if __name__=="__main__":
 	test()
+	
+#Problems
+#1. hefeiweb.py cannot work. what's wrong with it?
+#2. maito(news) is not accomplished.
+#3. timer() auto scrapy message from specified sites&times

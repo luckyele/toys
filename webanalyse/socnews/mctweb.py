@@ -13,18 +13,19 @@ class Web(Webmonkey):
 	
 	def __init__(self):
 		# define the entrance and name of main website
-		self.url = "http://wgxlj.ahsz.gov.cn/14245213.html"
-		self.website = "http://wgxlj.ahsz.gov.cn/"
+		self.url = "https://www.mct.gov.cn/whzx/ggtz/"
+		self.website = "https://www.mct.gov.cn"
 		super().__init__(self.url, self.website)
 
 	def get_newest_message(self, obj):
 		msg = []
-		tr = obj.find("ul", {"class":"doc_list list-14245213"})
-		title = tr.a['title']
-		href = tr.a["href"]
-		time = tr.find("span", {"class":"right date"}).string
+		tr = obj.find("div", {"class":"bt-rig-cen-01"}).find("td")
+		title = tr.find("a")["title"]
+		# print(title)
+		href = tr.find("a")["href"]
+		# print(href)
+		time = tr.next_sibling.next_sibling.string
 		msg.append((time, title, href))
-		#print(msg)
 		return msg
 		
 def test3():
