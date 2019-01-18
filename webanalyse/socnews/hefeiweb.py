@@ -7,7 +7,7 @@ import requests
 
 from webmonkey import Webmonkey
 
-class Hefeiweb(Webmonkey):
+class Web(Webmonkey):
 	
 	def __init__(self):
 		# define the entrance and name of main website
@@ -15,18 +15,53 @@ class Hefeiweb(Webmonkey):
 		self.website = "http://swhj.hefei.gov.cn/"
 		super().__init__(self.url, self.website)
 
+	
+	def get_cookies(self):
+		from selenium import webdriver
+		try:
+			browser = webdriver.Chrome()
+		except e:
+			print("%s"%e)
+			return
+		
+		browser.get(self.url)
+		browser.refresh()
+		cookies = browser.get_cookies()
+		s = ""
+		for item in cookies:
+			s += "%s=%s;"%(item['name'],item['value'])
+		return s
+	
+	def get_obj(self):
+		cookies = self.get_cookies()
+		header={
+			"Host": "swhj.hefei.gov.cn",
+			"Connection": "keep-alive",
+			"Upgrade-Insecure-Requests": "1",
+			"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/71.0.3578.98 Chrome/71.0.3578.98 Safari/537.36",
+			"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+			"Referer": "http://swhj.hefei.gov.cn/4964/4965/",
+			"Accept-Encoding": "gzip, deflate",
+			"Accept-Language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
+			"Cookie":cookies}
+		
+		res = requests.get(self.url, headers=header)
+		obj = BeautifulSoup(res.text.encode("iso-8859-1").decode('utf-8'), "html.parser")		
+		return obj
+
 	def get_newest_message(self, obj):
 		msg = []
-		print(obj)
-		tr = obj.select('body > table:nth-child(4) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2):')
-		title = tr.a["title"]
-		href = tr.a["href"]
-		time = tr.next_sibling().get_text()
-		msg.append((time, title, self.website + href))
+		table = obj.findAll(attrs={"width":"90%","align":"center"})
+		tr = table[0].tbody.findAll("tr")
+		td = tr[0].findAll("td")
+		title = td[1].a['title']
+		href = td[1].a["href"]
+		time = td[2].get_text()
+		msg.append((time, title, self.website + href[2:]))
 		return msg
 		
 def test3():
-	web = Hefeiweb()
+	web = Web()
 	obj = web.get_obj()
 	new = web.get_newest_message(obj)
 	web.print_msg(new)

@@ -24,7 +24,7 @@ class Webmonkey:
 		try:			
 			r = requests.get(self.url, headers=header)	
 		except:
-			r = urlopen(url)
+			r = urlopen(self.url)
 
 		try:
 			bsObj = BeautifulSoup(r.text.encode("iso-8859-1").decode('utf-8'), "html.parser")

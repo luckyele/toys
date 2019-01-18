@@ -3,6 +3,7 @@
 
 import mctweb		as mct
 import anhuiweb 	as ah
+import hefeiweb		as hf
 import bozhouweb 	as bzh
 import chuzhouweb 	as chzh
 import fuyangweb 	as fy
@@ -19,18 +20,21 @@ import bengbuweb 	as bb
 import wuhuweb 		as wh
 import suzhouweb 	as szh
 
+
+
 def scheduling(p_area):
 	web = p_area.Web()
 	obj = web.get_obj()
 	new = web.get_newest_message(obj)
 	web.print_msg(new)
 
+	
 def mailto(news):
 	pass
 
 def test():
 	msgs = [ah,\
-			      hb,  bzh, szh, bb,   fy,  hn,  chzh, \
+			hf,   hb,  bzh, szh, bb,   fy,  hn,  chzh, \
 			luan, msh, wh,  tl,  chzh, anq, xch, hsh]
 
 	for p_area in msgs:
@@ -40,6 +44,4 @@ if __name__=="__main__":
 	test()
 	
 #Problems
-#1. hefeiweb.py cannot work. what's wrong with it?
-#2. maito(news) is not accomplished.
-#3. timer() auto scrapy message from specified sites&times
+#1. timer() auto scrapy message from specified sites&times
