@@ -1,13 +1,10 @@
 #! /usr/lib/python
 #coding:utf-8
 
-from urllib.request import urlopen
 from bs4 import BeautifulSoup
-import requests
-import sys
-# sys.path.append("../")
-
 from webmonkey import Webmonkey
+from urllib.request import urlopen
+import requests
 
 class Web(Webmonkey):
 	
@@ -20,14 +17,14 @@ class Web(Webmonkey):
 	def get_newest_message(self, obj):
 		msg = []
 		tr = obj.find("div", {"class":"list"}).find("div", {"class":"tr"})
-		title = tr.find("div",class_="title").a["title"]
-		href = tr.find("div",class_="title").a["href"]
-		time = tr.find("div",class_="time").get_text()[1:-1]
+		title = tr.find("div", class_="title").a["title"]
+		href = tr.find("div", class_="title").a["href"]
+		time = tr.find("div", class_="time").get_text()[1:-1]
 		msg.append((time, title, self.website + href))
 		return msg
 		
 	def print_msg(self, msg):
-		print(msg[0][0], msg[0][1].encode("iso-8859-1").decode('gbk'))
+		print(msg[0][0], msg[0][1].encode('iso-8859-1').decode('utf-8'))
 		print(msg[0][2])
 
 		

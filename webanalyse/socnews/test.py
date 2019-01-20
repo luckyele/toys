@@ -1,6 +1,7 @@
 #! /usr/lib/python
 #coding:utf-8
 
+
 import mctweb		as mct
 import anhuiweb 	as ah
 import hefeiweb		as hf
@@ -21,7 +22,6 @@ import wuhuweb 		as wh
 import suzhouweb 	as szh
 
 
-
 def scheduling(p_area):
 	web = p_area.Web()
 	try:
@@ -39,9 +39,9 @@ def test():
 
 	for p_area in msgs:
 		scheduling(p_area)
-	
 
 if __name__ == "__main__":
+
 	test()
 	
 #Problems

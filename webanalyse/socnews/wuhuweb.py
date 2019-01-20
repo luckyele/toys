@@ -31,6 +31,5 @@ def test3():
 	obj = web.get_obj()
 	new = web.get_newest_message(obj)
 	web.print_msg(new)
-
 if __name__ == "__main__":
 	test3()
