@@ -24,23 +24,24 @@ import suzhouweb 	as szh
 
 def scheduling(p_area):
 	web = p_area.Web()
-	obj = web.get_obj()
-	new = web.get_newest_message(obj)
+	try:
+		obj = web.get_obj()
+		new = web.get_newest_message(obj)
+	except:
+		return
+
 	web.print_msg(new)
 
-	
-def mailto(news):
-	pass
-
 def test():
-	msgs = [ah,\
+	msgs = [mct, ah,\
 			hf,   hb,  bzh, szh, bb,   fy,  hn,  chzh, \
 			luan, msh, wh,  tl,  chzh, anq, xch, hsh]
 
 	for p_area in msgs:
 		scheduling(p_area)
+	
 
-if __name__=="__main__":
+if __name__ == "__main__":
 	test()
 	
 #Problems

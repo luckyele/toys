@@ -33,17 +33,6 @@ class Webmonkey:
 		
 		return bsObj
 
-	def get_page_text(self):
-		pass
-
-	def parser_page(self, obj):
-		pass
-
-	def get_page_text(self, url):
-		pass
-
-	def get_url_list_first(self):
-		pass
 	
 	def print_msg(self, msg):
 		print(msg[0][0], msg[0][1])

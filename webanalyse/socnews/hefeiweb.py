@@ -21,7 +21,6 @@ class Web(Webmonkey):
 		try:
 			browser = webdriver.Chrome()
 		except e:
-			print("%s"%e)
 			return
 		
 		browser.get(self.url)

@@ -1,31 +1,45 @@
 #! /usr/lib/python
 #coding:utf-8
 
-import urllib.request 
 from bs4 import BeautifulSoup
-import jieba.analyse
+#coding:utf-8
 
-def analyse_web(url):
-    req = urllib.request.urlopen(url)
-    f = req.read().decode('gb2312', 'ignore').encode('utf-8')
-    req.close()
+import requests
+import time
 
-    soup = BeautifulSoup(f, 'html.parser')
+host = 'http://www.ahwh.gov.cn'
+def get_all_alink(url):
+	alinks = []
+	r = requests.get(url)
+	soup = BeautifulSoup(r.text,'html.parser')
+	for link in soup.findAll('a'):
+		if 'href' in link.attrs:
+			t = link['href'].split('//')
+			if len(t) == 1 and t[0][0:1] == '/':
+				alinks.append(host+t[0])
+				
+	return alinks
 
-    for k in soup.find_all('div', class_='cont'):
-        txt = k.get_text().strip('\n').strip(' ')
+def gen_graph(alinks):
+	
+	url_grahp = {}
+	i = 0
+	for link in alinks:
+		name = i 
+		url_grahp[name] = link
+		i += 1
 
-    #t_list1 = jieba.analyse.extract_tags(txt, topK=5, withWeight=False, allowPOS=())
-    t_list2 = jieba.analyse.textrank(txt, topK=10, withWeight=False, allowPOS=('ns', 'n', 'vn', 'v'))
-    return t_list2
+	print(url_grahp)
+
 
 if __name__ == "__main__":
-    ahwht1 = "http://www.ahwh.gov.cn/zz/shwhc/zdhd5/49946.shtml"
-    ahwht2 = "http://www.ahwh.gov.cn/zz/shwhc/zdhd5/47954.shtml"
-    ahwht3 = "http://www.ahwh.gov.cn/zz/shwhc/zcwj3/49568.shtml"
-    ahwht4 = "http://www.ahwh.gov.cn/xwzx/gzdt/50918.shtml"
-    for url in [ahwht1,ahwht2,ahwht3,ahwht4]:
-        print("Result of analyse: %s"%url)
-        for s in analyse_web(url):
-            print(str(s))
+	url = "http://www.ahwh.gov.cn"
+	alinks = get_all_alink(url)
+	print("*"*40)
+	for link in alinks:
+		print(link)
+	
+	print("*"*40)
+	print('%d <a> link.'%len(alinks))
 
+	gen_graph(alinks)
