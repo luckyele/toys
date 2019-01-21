@@ -1,6 +1,7 @@
-#! /usr/lib/python
+#!/usr/lib/python
 #coding:utf-8
 
+from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import requests
 
@@ -10,19 +11,19 @@ class Web(Webmonkey):
 	
 	def __init__(self):
 		# define the entrance and name of main website
-		self.name = '[蚌埠]'
-		self.url = "http://wgxj.bengbu.gov.cn/sitefiles/services/cms/page.aspx?s=1&n=9"
-		self.website = "http://wgxj.bengbu.gov.cn"
+		self.url ="http://wgx.fy.gov.cn/content/channel/5c3d45bf171ed55346923ce0/"
+		self.website = "http://wgx.fy.gov.cn/"
+		self.name = "[阜阳]"
 
 		super().__init__(self.url, self.website)
 
 	def get_newest_message(self, obj):
 		msg = []
-		tr = obj.find("div", {"class":"contain_page"}).div.findAll("div")
-		title = tr[0].a.get_text()
-		href = tr[0].a["href"]
-		time = tr[1].get_text()[5:]
-		msg.append((time, self.name + title, self.website+href))
+		tr = obj.find("div", {"class":"listright-box"}).findAll("li")
+		title = tr[0].find("a").string
+		href = tr[0].find("a")["href"]
+		time = tr[0].find("span").string
+		msg.append((time, self.name+title, self.website + href))
 		return msg
 		
 def test3():

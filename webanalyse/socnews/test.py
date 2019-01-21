@@ -7,7 +7,7 @@ import anhuiweb 	as ah
 import hefeiweb		as hf
 import bozhouweb 	as bzh
 import chuzhouweb 	as chzh
-import fuyangweb 	as fy
+import fuyangweb2 	as fy
 import huainanweb 	as hn
 import huaibeiweb 	as hb
 import huangshanweb as hsh
@@ -33,8 +33,8 @@ def scheduling(p_area):
 	web.print_msg(new)
 
 def test():
-	msgs = [mct, ah,\
-			hb,  bzh, szh, bb,   fy,  hn,  chzh, \
+	msgs = [ah,\
+			bzh, szh, bb,   fy,  hn,  chzh, \
 			luan, msh, wh,  tl,  chzh, anq, xch, hsh]
 
 	for p_area in msgs:

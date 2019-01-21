@@ -12,6 +12,7 @@ class Web(Webmonkey):
 		# define the entrance and name of main website
 		self.url = "http://www.ahwh.gov.cn/zz/shwhc/gzdt5/"
 		self.website = "http://www.ahwh.gov.cn"
+		self.name ='[省厅]'.encode('GBK').decode('iso-8859-1')
 		super().__init__(self.url, self.website)
 
 	def get_newest_message(self, obj):
@@ -20,7 +21,7 @@ class Web(Webmonkey):
 		title = tr.find("div", class_="title").a["title"]
 		href = tr.find("div", class_="title").a["href"]
 		time = tr.find("div", class_="time").get_text()[1:-1]
-		msg.append((time, title, self.website + href))
+		msg.append((time, self.name + title, self.website + href))
 		return msg
 		
 	def print_msg(self, msg):

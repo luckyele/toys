@@ -3,10 +3,9 @@
 
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from urllib.parse import urlparse
 import requests
 
-DEBUG = 0
+DEBUG = 0 
 
 class Webmonkey:
 		
@@ -16,7 +15,6 @@ class Webmonkey:
 		
 	def get_obj(self):
 		'''Simulate web_browser to access website.'''
-		par = urlparse(self.url)
 		
 		header = {"User-Agent":\
 					'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML,like\
@@ -24,16 +22,16 @@ class Webmonkey:
 				  "Accept":\
 					"text/html,appliation/xhtml+xml, \
 					application/xml;q=0.9,image/webp,*/*;q=0.8",\
-				  'Host':par[1],\
-				  'Referer':par[0] + '://' + par[1]
 				}
 		try:			
 			r = requests.get(self.url, headers=header, timeout=10)
+#			print(r.status_code)
+
 			if r.status_code != 200:
 				return None
 		except Exception as e:
 			print(e)
-			r = urlopen(self.url)
+			return 
 		
 		if DEBUG:
 			print("[**DEBUG**] " + r.encoding)
