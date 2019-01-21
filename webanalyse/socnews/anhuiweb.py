@@ -24,7 +24,7 @@ class Web(Webmonkey):
 		return msg
 		
 	def print_msg(self, msg):
-		print(msg[0][0], msg[0][1].encode('iso-8859-1').decode('utf-8'))
+		print(msg[0][0], msg[0][1].encode('iso-8859-1').decode('GBK'))
 		print(msg[0][2])
 
 		

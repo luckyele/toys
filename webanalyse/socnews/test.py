@@ -34,7 +34,7 @@ def scheduling(p_area):
 
 def test():
 	msgs = [mct, ah,\
-			hf,   hb,  bzh, szh, bb,   fy,  hn,  chzh, \
+			hb,  bzh, szh, bb,   fy,  hn,  chzh, \
 			luan, msh, wh,  tl,  chzh, anq, xch, hsh]
 
 	for p_area in msgs:

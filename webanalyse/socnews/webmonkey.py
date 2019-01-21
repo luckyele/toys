@@ -5,8 +5,6 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 import requests
-import sys
-
 
 DEBUG = 0
 
@@ -33,14 +31,13 @@ class Webmonkey:
 			r = requests.get(self.url, headers=header, timeout=10)
 			if r.status_code != 200:
 				return None
-
 		except Exception as e:
 			print(e)
 			r = urlopen(self.url)
 		
 		if DEBUG:
-			print("[**DEBUG**] "+r.encoding)
-			print("[**DEBUg**] "+self.url)
+			print("[**DEBUG**] " + r.encoding)
+			print("[**DEBUg**] " + self.url)
 		try:
 			bsObj = BeautifulSoup(r.text.encode('iso-8859-1').decode('utf-8'), "html.parser")
 		except:
@@ -52,6 +49,3 @@ class Webmonkey:
 		print(msg[0][0], msg[0][1])
 		print(msg[0][2])
 
-
-	def get_charset(self, obj):
-		return str(obj.find('meta')['content'].split(' ')[1].split('=')[1])
