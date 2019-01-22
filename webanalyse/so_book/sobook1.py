@@ -5,7 +5,10 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import csv
-import sqlhelper1
+import sys
+sys.path.append('../')
+
+from ..sqlhelper import sqlhelper1
 
 def get_book_num(bsObj):
     result = bsObj.find('div', id='search_meta')\

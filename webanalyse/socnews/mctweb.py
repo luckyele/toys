@@ -11,6 +11,7 @@ class Web(Webmonkey):
 		# define the entrance and name of main website
 		self.url = "https://www.mct.gov.cn/whzx/ggtz/"
 		self.website = "https://www.mct.gov.cn"
+		self.name = "[文旅部]"
 		super().__init__(self.url, self.website)
 
 	def get_newest_message(self, obj):

@@ -10,7 +10,7 @@ class Web(Webmonkey):
 	
 	def __init__(self):
 		# define the entrance and name of main website
-		self.name = '[蚌埠]'
+		self.name = '[蚌埠市]'
 		self.url = "http://wgxj.bengbu.gov.cn/sitefiles/services/cms/page.aspx?s=1&n=9"
 		self.website = "http://wgxj.bengbu.gov.cn"
 

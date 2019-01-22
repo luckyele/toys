@@ -13,6 +13,7 @@ class Web(Webmonkey):
 		# define the entrance and name of main website
 		self.url = "http://swhj.hefei.gov.cn/4964/4965/"
 		self.website = "http://swhj.hefei.gov.cn/"
+		self.name = "[合肥市]"
 		super().__init__(self.url, self.website)
 
 	
@@ -56,7 +57,7 @@ class Web(Webmonkey):
 		title = td[1].a['title']
 		href = td[1].a["href"]
 		time = td[2].get_text()
-		msg.append((time, title, self.website + href[2:]))
+		msg.append((time, self.name + title, self.website + href[2:]))
 		return msg
 		
 def test3():

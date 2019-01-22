@@ -10,7 +10,7 @@ class Web(Webmonkey):
 		# define the entrance and name of main website
 		self.url = "http://www.bzwhly.gov.cn/zw/html/type/list-0101-1.html"
 		self.website = "http://www.bzwhly.gov.cn"
-		self.name = '[亳州]'
+		self.name = '[亳州市]'
 		super().__init__(self.url, self.website)
 
 	def get_newest_message(self, obj):

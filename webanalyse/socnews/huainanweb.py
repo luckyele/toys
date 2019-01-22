@@ -15,6 +15,7 @@ class Web(Webmonkey):
 		# define the entrance and name of main website
 		self.url = "http://wgx.huainan.gov.cn/13383110.html"
 		self.website = "http://wgx.huainan.gov.cn/"
+		self.name = "[淮南市]"
 		super().__init__(self.url, self.website)
 
 	def get_newest_message(self, obj):
@@ -23,7 +24,7 @@ class Web(Webmonkey):
 		title = tr.a['title']
 		href = tr.a["href"]
 		time = tr.find("span", {"class":"right date"}).string
-		msg.append((time, title, href))
+		msg.append((time, self.name+title, href))
 		#print(msg)
 		return msg
 		

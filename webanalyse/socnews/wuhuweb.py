@@ -3,11 +3,8 @@
 
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-import requests
-import sys
-# sys.path.append("../")
-
 from webmonkey import Webmonkey
+import requests
 
 class Web(Webmonkey):
 	
@@ -15,6 +12,7 @@ class Web(Webmonkey):
 		# define the entrance and name of main website
 		self.url = "http://whw.wuhu.gov.cn/List.aspx?pTypeID=111601"
 		self.website = "http://whw.wuhu.gov.cn/"
+		self.name = "[芜湖市]"
 		super().__init__(self.url, self.website)
 
 	def get_newest_message(self, obj):
@@ -23,7 +21,7 @@ class Web(Webmonkey):
 		title =	tr.a.get_text()[:-12].lstrip("\r\n").lstrip(" ").rstrip(" ").rstrip("\r\n")
 		href = tr.a["href"]
 		time = tr.find("span").string.lstrip("\r\n").lstrip(' ')
-		msg.append((time, title, self.website + href))
+		msg.append((time, self.name+title, self.website + href))
 		return msg
 		
 def test3():

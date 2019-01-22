@@ -43,6 +43,3 @@ def test():
 if __name__ == "__main__":
 
 	test()
-	
-#Problems
-#1. timer() auto scrapy message from specified sites&times
