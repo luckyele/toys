@@ -1,7 +1,6 @@
 #! /usr/lib/python
 #coding:utf-8
 
-
 import mctweb		as mct
 import anhuiweb 	as ah
 import hefeiweb		as hf
@@ -21,7 +20,6 @@ import bengbuweb 	as bb
 import wuhuweb 		as wh
 import suzhouweb 	as szh
 
-
 def scheduling(p_area):
 	web = p_area.Web()
 	try:
@@ -29,7 +27,6 @@ def scheduling(p_area):
 		new = web.get_newest_message(obj)
 	except:
 		return
-
 	web.print_msg(new)
 
 def test():
@@ -41,5 +38,4 @@ def test():
 		scheduling(p_area)
 
 if __name__ == "__main__":
-
 	test()
