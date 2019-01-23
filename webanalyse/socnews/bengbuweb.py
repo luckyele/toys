@@ -14,11 +14,10 @@ class Web(Webmonkey):
 		self.url = "http://wgxj.bengbu.gov.cn/sitefiles/services/cms/page.aspx?s=1&n=9"
 		self.website = "http://wgxj.bengbu.gov.cn"
 
-		super().__init__(self.url, self.website)
-
-	def get_newest_message(self, obj):
+	def get_newest_message(self, obj, index=1):
 		msg = []
-		tr = obj.find("div", {"class":"contain_page"}).div.findAll("div")
+		tr = obj.find("div", {"class":"contain_page"}).findAll("div",\
+                {"class":"list_content"})[index].findAll("div")
 		title = tr[0].a.get_text()
 		href = tr[0].a["href"]
 		time = tr[1].get_text()[5:]

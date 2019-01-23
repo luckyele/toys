@@ -5,7 +5,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import requests
 
-DEBUG = 0 
+DEBUG = 0
 
 class Webmonkey:
 		
@@ -25,7 +25,6 @@ class Webmonkey:
 		try:
 			r = requests.get(self.url, headers=header, timeout=10)
 #			print(r.status_code)
-
 			if r.status_code != 200:
 				return None
 		except Exception as e:

@@ -13,7 +13,7 @@ class Web(Webmonkey):
 	
 	def __init__(self):
 		# define the entrance and name of main website
-		self.url = "http://wgxj.chizhou.gov.cn/content/channel/56d555c7a70f2ed08554feff/"
+		self.url = "http://wgxj.chizhou.gov.cn/content/channel/56d555c7a70f2ed08554ff17/"
 		self.website = "http://wgxj.chizhou.gov.cn"
 		self.name = "[池州市]"
 		super().__init__(self.url, self.website)

@@ -17,12 +17,13 @@ class Web(Webmonkey):
 		self.name = "[马鞍山市]"
 		super().__init__(self.url, self.website)
 
-	def get_newest_message(self, obj):
+	def get_newest_message(self, obj, i=1):
 		msg = []
-		tr = obj.find("ul", {"class":"doc_list list-4716617"})
-		title = tr.a['title']
-		href = tr.a["href"]
-		time = tr.find("span", {"class":"right date"}).string
+		tr = obj.find("ul", {"class":"doc_list list-4716617"})\
+                .findAll("li")
+		title = tr[i].a['title']
+		href = tr[i].a["href"]
+		time = tr[i].find("span", {"class":"right date"}).string
 		msg.append((time, self.name+title, href))
 		#print(msg)
 		return msg
