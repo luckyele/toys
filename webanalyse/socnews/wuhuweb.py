@@ -18,7 +18,7 @@ class Web(Webmonkey):
 	def get_newest_message(self, obj):
 		msg = []
 		tr = obj.find("div", {"class":"listcontent"}).find("ul",{"id":"list"}).li
-		title =	tr.a.get_text()[:-12].lstrip("\r\n").lstrip(" ").rstrip(" ").rstrip("\r\n")
+		title = tr.a.get_text()[:-12].lstrip("\r\n").lstrip(" ").rstrip(" ").rstrip("\r\n")
 		href = tr.a["href"]
 		time = tr.find("span").string.lstrip("\r\n").lstrip(' ')
 		msg.append((time, self.name+title, self.website + href))

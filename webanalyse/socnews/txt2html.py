@@ -9,9 +9,14 @@ msg = {}
 f = open(FILE,"r")
 h = open(HTML,"w")
 
-h.write("<html>\r\n")
-h.write("<head><meta charset='utf-8'></head>\r\n")
-h.write("<body>\r\n")
+h.write(
+'''
+<html>
+	<head>
+		<meta charset='utf-8'>
+	</head>
+	<body>
+''')
 
 i = 0
 date = ''
