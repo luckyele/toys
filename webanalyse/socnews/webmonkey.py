@@ -24,7 +24,7 @@ class Webmonkey:
 				}
 		
 		try:
-			r = requests.get(self.url, headers=header, timeout=10)
+			r = requests.get(self.url, headers=header, timeout=220)
 			if DEBUG:
 				print(r.status_code)
 			if r.status_code != 200:
