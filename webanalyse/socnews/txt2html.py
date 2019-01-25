@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 #coding:utf-8
 
+from bs4 import BeautifulSoup
+
+
 FILE = 'msg.txt'
 HTML = 'index.html'
 
