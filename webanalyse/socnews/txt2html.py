@@ -7,7 +7,7 @@ import pdb
 
 FILE = 'msg.txt'
 HTML = 'base.html'
-HTML2 = 'index.html'
+HTML2 = 'ahcnews.html'
 
 def get_msg(f):
 	i = 0

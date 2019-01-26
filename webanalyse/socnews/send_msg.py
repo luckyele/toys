@@ -8,5 +8,5 @@ def send_msg(f):
 	itchat.logout()
 
 if __name__=="__main__":
-	f = "index.html"
+	f = "ahcnews.html"
 	send_msg(f)
