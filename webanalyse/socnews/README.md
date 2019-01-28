@@ -121,4 +121,4 @@ Ubuntu 16.04 + Python 3.x
 解决合肥市网站问题.发现itchat库,可以轻松调用微信接口发送消息或文件.下面可以设计一个包含抓取信息网页,自动发送.
 
 
-This program was already moved into http://github.com/lucyele/socnews.git.
+This program was already moved into https://github.com/luckyele/socnews.git.
