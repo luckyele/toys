@@ -1,3 +1,14 @@
 1，将2.wav文件的采样率修改为16000HZ
 
 命令如下：sox   2.wav   -r   16000  2R.wav
+
+书名：《Natural Language Processing with Python》
+副标题：Analyzing Text with the Natural Language Toolkit
+作者：Steven Bird，Ewan Klein，Edward Loper
+出版社：O’Reilly
+翻译：陈涛 weibo.com/chentao19999
+
+
+
+
+
