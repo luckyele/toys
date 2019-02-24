@@ -1,0 +1,36 @@
+PyAudio 库介绍
+
+https://people.csail.mit.edu/hubert/pyaudio/docs/
+
+PyAudio 是使用Python语言，跨平台的声音I/O库。利用这个库能在各种平台上方便地播放、录制声音。
+
+两部分组成：
+
+pyPortAudio/fastaudio: PortAudio V18 API
+tkSnack:跨平台声音工具集 Tcl/Tk和Python。
+
+
+
+知乎： 语音识别的技术原理是什么？
+https://www.zhihu.com/question/20398418
+
+知乎文章：https://zhuanlan.zhihu.com/p/24339995
+四十年的难题与荣耀——从历史视角看语音识别发展
+
+https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=401894776&idx=1&sn=e963169d912f307104b97e0d7cd03cb7&scene=21#wechat_redirect
+
+介绍了六大困难领域。
+专业刊物
+IEEE Transactionson Audio
+Speech and Language Processing
+Computer Speech and Language
+
+研讨会
+ICASSP
+Inter speech 
+IEEE ASRU
+
+语音产品
+- 搜狗听写
+
+
