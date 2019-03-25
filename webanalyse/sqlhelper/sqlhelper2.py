@@ -14,7 +14,6 @@ class SQLite:
         sql_statement = "CREATE TABLE IF NOT EXISTS " + self.table + \
             "(ID INTEGER PRIMARY KEY AUTOINCREMENT,\
             URL CHAR(255) ,\
-            
             TITLE CHAR(255) NOT NULL)"
         self.c.execute(sql_statement)
         self.conn.commit()
@@ -44,9 +43,9 @@ def test():
     
     sql = SQLite(s, t)
     sql.create_table()
-
-    for r in [r1,r2,r3]:
-        sql.insert_record(r)
+    for i in range(100):
+        print('inser %d'%i)
+        sql.insert_record(r1)
     
     sql.select_all()
     sql.close()

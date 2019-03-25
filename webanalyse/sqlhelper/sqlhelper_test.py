@@ -1,5 +1,5 @@
-import sqlhelper
+import sqlhelper2
 
-sqlhelper.test()
+sqlhelper2.test()
 
 
