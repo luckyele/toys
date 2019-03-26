@@ -49,11 +49,8 @@ def next_page(bsObj):
 	return np_url
 
 if __name__ == "__main__":
-	import os
 	bsObj = getObj(url)
-	os.addpath
-	csvFile = open("search_result.csv", "wt",\
-			 newline='', encoding='utf-8')
+	csvFile = open("search_result.csv", "wt", newline='', encoding='utf-8')
 	
 	for i in range(10):
 		rows = parserSite(bsObj)

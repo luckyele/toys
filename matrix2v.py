@@ -12,11 +12,11 @@ class Arry_map():
         self.map = [[0 for i in range(self.col)] for i in range(self.row)]
 
     def disp_arry_map(self):
-		color = random.choice([34,35,36,37,38,39,40])
-		for r in self.map:
-		for i in r:
-			if i == 1:
-            	print("\033[1;34;40m%d\033[40m"%(color, i),end='')
+        color = random.choice([34,35,36,37,38,39,40])
+        for r in self.map:
+            for i in r:
+                if i == 1:
+                    print("\033[1;34;40m%d\033[40m"%(color, i), end='')
             else:
                 print("\033[0m%d"%(i),end='')
             print('\n', end='')	
@@ -46,7 +46,7 @@ class Arry_map():
         self.set_line(r1,c1,r2,c1)
 				
     def zoom_in_outside(self, r1, c1, r2, c2):
-    	pass
+        pass
 				     
     def rand_rect(self):
         while True:
