@@ -5,17 +5,17 @@ from bs4 import BeautifulSoup
 import requests
 import time
 
-
-host = 'http://ct.ah.gov.cn'
-INIT_LINKS = []
-ACCESSED_LINKS = []
-UNACCESSED_LINKS = []
+host = 'https://ct.ah.gov.cn'
 
 ''' Get all <a> links in the current page.
 '''
-def get_all_alink(url, links):
+def get_all_alink_of_current_page(url, links):
 	r = requests.get(url)
-	soup = BeautifulSoup(r.text, 'html.parser')
+	try:
+		soup = BeautifulSoup(r.text, 'html.parser')
+	except:
+		print("something error.")		
+	
 	for link in soup.findAll('a'):
 		if 'href' in link.attrs:
 			t = link['href'].split('//')
@@ -23,23 +23,22 @@ def get_all_alink(url, links):
 				new_link = host + t[0]
 				if new_link not in links:
 					links.append(new_link)
-		
+	return links
+
 def test():
-	get_all_alink(host, INIT_LINKS)
-	UNACCESSED_LINKS = INIT_LINKS
-	if len(UNACCESSED_LINKS) > 0:
-		link = UNACCESSED_LINKS.pop(0)
-		ACCESSED_LINKS.append(link)
+	url = 'http://ct.ah.gov.cn'
+	INIT_LINKS = []
+	ACCESSED_LINKS = []
+	get_all_alink_of_current_page(url, INIT_LINKS)
+	for l in INIT_LINKS:
+		if l not in ACCESSED_LINKS:
+			ACCESSED_LINKS.append(l)
+			print("[**UNACCESSED**]%s >>"%l)
+			get_all_alink_of_current_page(l, INIT_LINKS)
 
-def disp():
-	for link in ACCESSED_LINKS:
-		print(link)
-	print("")
-	
-	for link in UNACCESSED_LINKS:
-		print(link)
-	print("")
-
+		# display the process of scanning
+		print("[**info**]INIT_LINKS(%s) ACCESSED_LINKS(%s)"%(len(INIT_LINKS),
+					len(ACCESSED_LINKS)))
+		
 if __name__ == "__main__":
 	test()
-	disp()
