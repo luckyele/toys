@@ -9,7 +9,7 @@ host = 'https://ct.ah.gov.cn'
 
 ''' Get all <a> links in the current page.
 '''
-def get_all_alink_of_current_page(url, links):
+def get_all_inner_alink_of_current_page(url, links):
 	r = requests.get(url)
 	try:
 		soup = BeautifulSoup(r.text, 'html.parser')
@@ -29,12 +29,12 @@ def test():
 	url = 'http://ct.ah.gov.cn'
 	INIT_LINKS = []
 	ACCESSED_LINKS = []
-	get_all_alink_of_current_page(url, INIT_LINKS)
+	get_all_inner_alink_of_current_page(url, INIT_LINKS)
 	for l in INIT_LINKS:
 		if l not in ACCESSED_LINKS:
 			ACCESSED_LINKS.append(l)
 			print("[**UNACCESSED**]%s >>"%l)
-			get_all_alink_of_current_page(l, INIT_LINKS)
+			get_all_inner_alink_of_current_page(l, INIT_LINKS)
 
 		# display the process of scanning
 		print("[**info**]INIT_LINKS(%s) ACCESSED_LINKS(%s)"%(len(INIT_LINKS),
