@@ -1,9 +1,20 @@
 #! /usr/lib/python
 #coding:utf-8
 
+# 网站地图分析
+# 树形地图
+# ROOT
+
 from bs4 import BeautifulSoup
 import requests
-import time
+from urllib.request import urlretrieve
+import csv
+
+def save(data):
+	with open('data.csv', 'w+') as csvFile:
+		for d in data:
+			csvFile.write(d)
+			csvFile.write('\n')
 
 host = 'https://ct.ah.gov.cn'
 
@@ -30,6 +41,7 @@ def test():
 	INIT_LINKS = []
 	ACCESSED_LINKS = []
 	get_all_inner_alink_of_current_page(url, INIT_LINKS)
+
 	for l in INIT_LINKS:
 		if l not in ACCESSED_LINKS:
 			ACCESSED_LINKS.append(l)
@@ -40,5 +52,9 @@ def test():
 		print("[**info**]INIT_LINKS(%s) ACCESSED_LINKS(%s)"%(len(INIT_LINKS),
 					len(ACCESSED_LINKS)))
 		
+		if len(INIT_LINKS) > 100:
+			save(INIT_LINKS)
+			return
+
 if __name__ == "__main__":
 	test()
