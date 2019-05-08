@@ -23,29 +23,29 @@ def get_obj(url):
 def parser_site(bsObj):
 	rows = []
 
-	trs = bsObj.find("div", {"class":"list"}).findAll("div", {"class":"tr"})
+	trs = bsObj.find("div", {"class":"ctNewsList"}).ul.findAll("a")
+	print(trs)
 	for tr in trs:
-		title = tr.find("div",class_="title").a["title"]
-		href = tr.find("div",class_="title").a["href"]
-		time = tr.find("div",class_="time").get_text()
-		rows.append((time,title,href))
+		href = tr["href"]
+		title = tr.get_text()
+		rows.append((title,href))
 
 	return rows
 
 def get_page_text(url):
-	''' For www.ahwh.gov.cn
-	'''
 	with  urlopen(url) as req:
-		f = req.read().decode('gb2312', 'ignore').encode('utf-8')
+		f = req.read()
 		req.close()
 		
 		soup = BeautifulSoup(f, 'html.parser')
-		for k in soup.find_all('div', id='BodyLabel'):
-			txt = "".join(k.get_text().strip())
-
+		k =  soup.find('div', {"class":"articleMain"})
+		txt = "".join(k.get_text().strip())
 		return txt
 
+
 def page_keyword(txt, w=5):
+	''' function: get top 5 keywords in txt;	return  : list of keywords.
+	'''
 	t_list = jieba.analyse.textrank(txt, topK=w, withWeight=False, allowPOS=('ns', 'n', 'vn', 'v'))
 	return t_list
 
@@ -78,7 +78,7 @@ class Keywords:
 
 	def save(self):
 		import csv
-		csvfile = open("key.csv", "wt", newline='', encoding='utf-8')
+		csvfile = open("key.csv", "wt", newline='')
 		writer = csv.writer(csvfile)
 		for key in self.keywords:
 			writer.writerow(key)
@@ -91,25 +91,21 @@ def keywords_stat(k1_list, k2_list):
 		if k2 in k1_list:
 			i += 1
 	if i > len(k2_list)*0.8:
-		return "PCS"
+		return "公共文化服务类"
 	else:
-		return "UNKNOWN"
+		return "未知"
 
 def get_url_list():
-	url = "http://www.ahwh.gov.cn/zz/shwhc/gzdt5/"
-	website = "http://www.ahwh.gov.cn"
+	url = "https://ct.ah.gov.cn/html/article/list-0105-1.html"
+	website = "https://ct.ah.gov.cn"
 	url_list = []
 	url1 = url
 
-	for i in range(5):
-		print(i, url1)
-		r = get_obj(url1)
-		rows = parser_site(r)
+	r = get_obj(url1)
+	rows = parser_site(r)
 		
-		for row in rows:
-			url_list.append(website+row[2])
-
-		url1 = url+'index_%d.shtml'%(i+2)
+	for row in rows:
+		url_list.append(website+row[1])
 
 	return url_list
 
@@ -126,8 +122,7 @@ def test2():
 		print(k_list)
 		pcs.add_keys(k_list)
 
-#	pcs.save()	
-	pcs.print()
+	pcs.save()	
 	pcs.sort()
 
 def test():
@@ -156,4 +151,4 @@ def test():
 		print(keywords_stat(pcs.keywords, k2.keywords))
 
 if __name__ == "__main__":
-	test()
+	test2()
