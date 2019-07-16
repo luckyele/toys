@@ -43,7 +43,7 @@ def get_page_text(url):
 		return txt
 
 
-def page_keyword(txt, w=5):
+def page_keyword(txt, w=10):
 	''' function: get top 5 keywords in txt;	return  : list of keywords.
 	'''
 	t_list = jieba.analyse.textrank(txt, topK=w, withWeight=False, allowPOS=('ns', 'n', 'vn', 'v'))
@@ -61,8 +61,8 @@ class Keywords:
 
 	def keys(self):
 		return self.keywords
-
-	def print(self):
+	
+	def print_msg(self):
 		for key in self.keywords:
 			print(key, end=' ')
 		print('\n')	
@@ -138,7 +138,7 @@ def test():
 		pcs.add_keys(k_list)
 
 	pcs.save()	
-	pcs.print()	
+	pcs.print_msg()	
 
 	print("Building completed....") 
 	print("*"*40)

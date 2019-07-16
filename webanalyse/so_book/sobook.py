@@ -89,4 +89,4 @@ if __name__ == '__main__':
    
     ahlib_url="http://opac.ahlib.com/opac/search"
     hflib_url="http://opac.hflib.gov.cn/lib2/search"
-    get_all_book(hflib_url)   
+    get_all_book(ahlib_url)   

@@ -1,0 +1,23 @@
+
+#WEBSITE INFO.
+info_table {
+ID,
+URL,
+TITLE,
+SUMMERY,
+AGENCY_NAME
+}
+
+# 
+table2 {
+ID,
+OIC,
+AGENCY_NAME,
+URL,
+ADDRESS,
+AGECNCY_TYPE
+LOCATION
+}
+
+
+

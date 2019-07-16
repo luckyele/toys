@@ -6,9 +6,9 @@ import requests
 import time
 import csv
 import sys
-sys.path.append('../')
+#sys.path.append('../')
 
-from ..sqlhelper import sqlhelper1
+from sqlhelper import sqlhelper1
 
 def get_book_num(bsObj):
     result = bsObj.find('div', id='search_meta')\
