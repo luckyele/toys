@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import csv
-
+import voice1
 
 def get_book_num(bsObj):
     result = bsObj.find('div', id='search_meta')\
@@ -25,8 +25,8 @@ def get_total_pages(bsObj):
     page_total = bsObj.find("span", class_="disabled").string[3:-1]
     return int(page_total)
 
-def open_new_page(url):
-    param = {"q":"python","searchWay":"title"}
+def open_new_page(url, keyword):
+    param = {"q":keyword,"searchWay":"title"}
 
     headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Itel Max OS X 10-9-5)\
                              AppleWebKit 537.36 (KHTML, like Gecko) Chrome",
@@ -54,18 +54,19 @@ def get_book_msg(bsObj):
     book_id = bsObj.find("span", class_="callnosSpan").string
     return book_id, book_title
     
-def get_all_book(lib_url):
+def get_all_book(lib_url, keyword):
 
-    bsObj = open_new_page(lib_url)
+    bsObj = open_new_page(lib_url, keyword)
     pagenum = get_total_pages(bsObj)
     booknum = get_book_num(bsObj)
-
-    print('----------------------')
-    print('from %s find %d books.'%(lib_url, booknum))
-    print('----------------------')
-
+    
+    txt = '我们从安徽省图书馆找到 %d 本关于 %s 的书.'%(booknum, keyword)
+    print(txt)
+    return txt
+'''
     rows = []    
     for j in range(pagenum):
+        if j > 1: break
         tb = bsObj.find('table', class_='resultTable')
         books = tb.find_all("tr")
 
@@ -75,18 +76,25 @@ def get_all_book(lib_url):
             print("%4d %25s %s"%(j*10+i+1, book_id, book_title))
             rows.append((j*10+i+1, book_id, book_title))
             i += 1
-        
         time.sleep(5)
 
         if j == pagenum-1:
             break 
         else:
             next_page_url = next_page(bsObj, lib_url)
-            bsObj = open_new_page(next_page_url+str(j+2))
+            bsObj = open_new_page(next_page_url+str(j+2), keyword)
     save_book(rows)
+'''
 
 if __name__ == '__main__':
    
     ahlib_url="http://opac.ahlib.com/opac/search"
     hflib_url="http://opac.hflib.gov.cn/lib2/search"
-    get_all_book(ahlib_url)   
+    c = voice1.voice_init()
+    text1 = "请看屏幕提示，说出您要找的书名或者作者姓名"
+    voice1.play_voice(c,text1)
+
+    while True:
+        kw = voice1.voice_input(c)
+        text = get_all_book(ahlib_url, kw)
+        voice1.play_voice(c,text)
