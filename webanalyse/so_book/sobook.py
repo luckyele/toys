@@ -87,11 +87,11 @@ def get_all_book(lib_url, keyword):
 '''
 
 if __name__ == '__main__':
-   
+
     ahlib_url="http://opac.ahlib.com/opac/search"
-    hflib_url="http://opac.hflib.gov.cn/lib2/search"
+
     c = voice1.voice_init()
-    text1 = "请看屏幕提示，说出您要找的书名或者作者姓名"
+    text1 = "说出您要找的书名或者作者姓名"
     voice1.play_voice(c,text1)
 
     while True:
