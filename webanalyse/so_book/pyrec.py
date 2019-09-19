@@ -25,7 +25,7 @@ def rec(file_name):
         data = stream.read(CHUNK)
         frames.append(data)
 
-    print("录音结束,请闭嘴!")
+    print("录音结束......")
 
     stream.stop_stream()
     stream.close()

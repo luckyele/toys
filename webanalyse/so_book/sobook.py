@@ -6,6 +6,7 @@ import requests
 import time
 import csv
 import voice1
+import os
 
 def get_book_num(bsObj):
     result = bsObj.find('div', id='search_meta')\
@@ -60,7 +61,7 @@ def get_all_book(lib_url, keyword):
     pagenum = get_total_pages(bsObj)
     booknum = get_book_num(bsObj)
     
-    txt = '我们从安徽省图书馆找到 %d 本关于 %s 的书.'%(booknum, keyword)
+    txt = '您好,我们从安徽省图书馆找到 %d 本关于 %s 的书.'%(booknum, keyword)
     print(txt)
     return txt
 '''
@@ -96,5 +97,23 @@ if __name__ == '__main__':
 
     while True:
         kw = voice1.voice_input(c)
-        text = get_all_book(ahlib_url, kw)
-        voice1.play_voice(c,text)
+        if kw == 0:
+            voice1.play_voice(c, "我没有听懂，请再说一遍。")
+            continue
+        voice1.play_voice(c, "你是要查关于 %s 的书吗 "%kw)
+        kw1 = voice1.voice_input(c)
+        if kw1 in {'是','是的','好','好的','嗯啊'}:
+            voice1.play_voice(c, "好的，这就为您查询关于 %s 的书 "%kw)
+            text = get_all_book(ahlib_url, kw)
+            voice1.play_voice(c,text)
+        else
+            voice1.play_voice(c,"你说是啥")
+
+        voice1.play_voice(c, "您还要继续查询吗")
+
+        kw1 = voice1.voice_input(c)
+        if kw1 in {'是','是的','好','好的','嗯啊'}:
+           break 
+        else:
+            voice1.play_voice(c, "感谢使用，下次再见")
+            exit()

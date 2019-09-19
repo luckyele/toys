@@ -19,9 +19,10 @@ def voice_input(client):
 
     with open(pcm_file,'rb') as fp:
         file_context = fp.read()
-
     r =  client.asr(file_context, 'pcm', 16000, {'dev_pid':1536,})
-
+    print(r)
+    if r.get('err_msg') != 'success.':
+        return 0
     return r.get("result")[0]
 
 def play_voice(c, r):
