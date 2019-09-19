@@ -106,7 +106,7 @@ if __name__ == '__main__':
             voice1.play_voice(c, "好的，这就为您查询关于 %s 的书 "%kw)
             text = get_all_book(ahlib_url, kw)
             voice1.play_voice(c,text)
-        else
+        else:
             voice1.play_voice(c,"你说是啥")
 
         voice1.play_voice(c, "您还要继续查询吗")
