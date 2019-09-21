@@ -6,7 +6,6 @@ FORMAT = pyaudio.paInt16
 CHANNELS = 2
 RATE = 16000
 RECORD_SECONDS = 5 
-WAVE_OUTPUT_FILENAME = "Oldboy.wav"
 
 def rec(file_name):
     p = pyaudio.PyAudio()

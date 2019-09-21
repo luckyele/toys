@@ -49,21 +49,17 @@ def save_book(rows):
         csvFile.close()
 
 def get_book_msg(bsObj):
-
     book_title = bsObj.find("span",class_= "bookmetaTitle")\
                 .a.string.lstrip().strip('/').rstrip()
     book_id = bsObj.find("span", class_="callnosSpan").string
     return book_id, book_title
     
 def get_all_book(lib_url, keyword):
-
     bsObj = open_new_page(lib_url, keyword)
     pagenum = get_total_pages(bsObj)
     booknum = get_book_num(bsObj)
     
-    txt = '您好,我们从安徽省图书馆找到 %d 本关于 %s 的书.'%(booknum, keyword)
-    print(txt)
-    return txt
+    return '您好,我们从安徽省图书馆找到 %d 本关于 %s 的书.'%(booknum, keyword)
 '''
     rows = []    
     for j in range(pagenum):
