@@ -1,3 +1,5 @@
+#!coding:utf-8
+
 import voice1
 import sobook2
 import time
@@ -61,7 +63,6 @@ class State_machine:
             if hear(self.c) == self.KEY:
                 say(self.c,SAY.get("b1"))
                 self.state = 2
-                return
             else:
                 say(self.c, SAY.get("b9"))
             return
@@ -70,7 +71,6 @@ class State_machine:
             if hear(self.c) == "搜索":
                 say(self.c,SAY.get("b3"))
                 self.state = 3
-                return
             else:
                 say(self.c, SAY.get("b9"))
             return
@@ -90,17 +90,15 @@ class State_machine:
             if yes_or_no(self.flag):
                 say(self.c, SAY.get("b6"))
                 say(self.c, search(self.kw))
-                self.flag = hear(self.c)
-                if yes_or_no(self.flag):
-                    self.state = 6
-                else:
-                    self.state = 7
+                self.state = 6
+            else:
+                self.state = 7
             return
 
         if self.state == 5:
             if yes_or_no(self.flag) == False:
                 say(self.c, SAY.get("b3"))
-                self.state = 2
+                self.state = 3 
             else:
                 say(self.c,SAY.get("b9"))
             return
@@ -110,22 +108,17 @@ class State_machine:
             if yes_or_no(hear(self.c)):
                 say(self.c, SAY.get("b3"))
                 self.state = 3
-                return
             else:
-                say(self.c, SAY.get("b9"))
+                self.state = 7
             return
 
         if self.state == 7:
-            say(self.c, SAY.get("b11"))
-            if yes_or_no(hear(self.c)) == False:
-                say(self.c, SAY.get("b12"))
-                self.state = 0
-                exit()
-            else:
-                say(self.c,SAY.get("b9"))
-            return
+            say(self.c, SAY.get("b12"))
+            self.state = 0
+            exit()
 
 if __name__ == "__main__":
     sm = State_machine()
+    sm.state = 6
     sm.run()
 
