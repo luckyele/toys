@@ -1,5 +1,5 @@
 import voice1
-import sobook
+import sobook2
 import time
 
 ahlib_url="http://opac.ahlib.com/opac/search"
@@ -32,7 +32,7 @@ SAY = {
         }
 
 def search(keyword):
-    return sobook.get_all_book(ahlib_url, keyword)
+    return sobook2.get_book(keyword)
 
 def say_init():
     return voice1.voice_init()

@@ -10,13 +10,11 @@
 
 每个<tr>下面有四个子节点<td>：第一个<TD>是选择框,第二个<TD>是序号，第三个<TD>是封面，第四个<TD>是关于本书的众多信息。
 
-
-
-这是一个checkbox类型的input窗体，其中input的属性中有这本书的代码，value="XXXXX"。利用这个value，可以构造一个链接，暂称为X链接，如：http://opac.ahlib.com/opac/book/XXXXX?index=1，在本馆网站上查得本书更多信息。
+这是一个checkbox类型的input窗体，其中input的属性中有这本书的代码，value="XXXXX"。利用这个value，可以构造一个链接，暂称为X链接，如：http://opac.ahlib.com/opac/book/XXXXX?index=1， 在本馆网站上查得本书更多信息。
 
 重点是：X链接页面中可以找到这本书在馆里的状态，比如，有几本，在不在馆里，在哪个馆，在馆里什么地方（中文文学、典藏、中文文学），借过几次，最近什么时候归还。
 
-以http://opac.ahlib.com/opac/book/1900578490?index=1为例，其页面源码：
+以http://opac.ahlib.com/opac/book/1900578490?index=1为例， 其页面源码：
 
 ```html
 <div class="dgrid-content ui-widget-content">

@@ -5,7 +5,7 @@ CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 2
 RATE = 16000
-RECORD_SECONDS = 5 
+RECORD_SECONDS = 3 
 
 def rec(file_name):
     p = pyaudio.PyAudio()
