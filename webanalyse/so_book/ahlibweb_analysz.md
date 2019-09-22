@@ -1,0 +1,98 @@
+## 安徽省图书馆网站书目检索分析
+
+### 1. 返回页的导航条
+
+[div, class=meneame]
+
+### 2.返回书目列表
+
+[table class="resultTable"] 其第一子节点<tbody>下面的每一个<tr>对应一本书的信息。
+
+每个<tr>下面有四个子节点<td>：第一个<TD>是选择框,第二个<TD>是序号，第三个<TD>是封面，第四个<TD>是关于本书的众多信息。
+
+
+
+这是一个checkbox类型的input窗体，其中input的属性中有这本书的代码，value="XXXXX"。利用这个value，可以构造一个链接，暂称为X链接，如：http://opac.ahlib.com/opac/book/XXXXX?index=1，在本馆网站上查得本书更多信息。
+
+重点是：X链接页面中可以找到这本书在馆里的状态，比如，有几本，在不在馆里，在哪个馆，在馆里什么地方（中文文学、典藏、中文文学），借过几次，最近什么时候归还。
+
+以http://opac.ahlib.com/opac/book/1900578490?index=1为例，其页面源码：
+
+```html
+<div class="dgrid-content ui-widget-content">
+
+	<div role="row" class=" ui-state-default dgrid-row dgrid-row-even" id="holdingGrid-row-undefined">
+		<table class="dgrid-row-table" role="presentation">
+			<tr>
+				<td class="dgrid-cell dgrid-cell-padding dgrid-column-0 field-callno" role="gridcell">I266/1057/2018</td>
+				<td class="dgrid-cell dgrid-cell-padding dgrid-column-1 field-barcode" role="gridcell">2642404</td>
+				<td class="dgrid-cell dgrid-cell-padding dgrid-column-2 field-state" role="gridcell">借出</td>
+				<td class="dgrid-cell dgrid-cell-padding dgrid-column-3 field-returnDate" role="gridcell">2019-12-31</td>
+				<td class="dgrid-cell dgrid-cell-padding dgrid-column-4 field-orglib" role="gridcell">安徽省馆</td>
+				<td class="dgrid-cell dgrid-cell-padding dgrid-column-5 field-curlib" role="gridcell">安徽省馆</td>
+				<td class="dgrid-cell dgrid-cell-padding dgrid-column-6 field-curlocal" role="gridcell">文学室</td>
+				<td class="dgrid-cell dgrid-cell-padding dgrid-column-7 field-cirtype" role="gridcell">中文文学</td>
+				<td class="dgrid-cell dgrid-cell-padding dgrid-column-8 field-volInfo" role="gridcell"></td>
+				<td class="dgrid-cell dgrid-cell-padding dgrid-column-9 field-totalLoanNum" role="gridcell">2</td>
+				<td class="dgrid-cell dgrid-cell-padding dgrid-column-10 field-totalRenewNum" role="gridcell">0</td>
+			</tr>
+		</table>
+	</div>
+
+	<div role="row" class=" ui-state-default dgrid-row dgrid-row-odd" id="holdingGrid-row-undefined">
+		<table class="dgrid-row-table" role="presentation">
+			<tr>......</tr>
+		</table>
+	</div>
+
+	<div role="row" class=" ui-state-default dgrid-row dgrid-row-even" id="holdingGrid-row-undefined">
+		<table class="dgrid-row-table" role="presentation">
+			<tr>...</tr>
+		</table>
+	</div>
+</div>
+```
+根据以上信息，似乎可以构造一个包含11个元素的数组，抽取如下数据：
+
++ 索书号,callno,
++ 条码号，barcode,
++ 馆藏状态，state,
++ 应还时间，returnDate,
++ 文献所属馆，orglib,
++ 所在馆，curlib,
++ 所在馆位置，curlocal,
++ 流通类型，cirtype,
++ 卷册信息，volInfo,
++ 借阅次数，totalLoanNum,
++ 续借次数，totalRenewNum
+
+但很遗憾，这个页面是一个经过JS加载的动态页面，直接抓取不到。虽然可以利用一个动态抓取的技术，但其过程还是稍显复杂。为此，我们需要新的方法。
+
+仔细浏览网站源码，再次证明“源码之下，了无秘密”这句经典之言所言非虚。我们找到一个特殊网址，利用这个网址可以不使用动态抓取技术，即可以获得前面提到的一本书的详细馆藏信息。
+
+
+一般来说，读者关心的是：（1）在不在馆，（2）在馆里的什么位置；（3）如果不在馆，最近什么时候还。（4）内容简介。
+
+通过以上的分析，可以解决前三个问题。第4个问题，是通过这个链接，可以转到一个新页面，在新页面的div class="book-detail-content"下面提供了<a>链接，而这个<a>可以转到联图云网站，在联图云网站上通过抓取div class="book-detail-content"的内容，可以获得本书完整简介。
+
+第二个<TD>是序号，
+第三个<TD>是封面，
+第四个<TD>是关于本书的众多信息。
+
+
+A say "在不在馆里"“在馆吗”“在錧里吗”
+B say "你好，当前查找的这本书不在馆，应还时间是%。"
+
+A say "在不在馆里"“在馆吗”“在錧里吗”
+B say "你好，当前查找的这本书在%s，已被借阅%d次"%(curlocal,totalLoanNum)
+
+
+先分析确定核心需求。再围绕核心需求，设计一组交互动作，划分出多个交互状态，利用状态机等技术，形成一项交互行为规则。我的理解，这个过程就是基于规则的人机交互设计。
+
+如果交互规则不是由人工设计完成的，而是通过机器学习得来的，那样的人机交互，才算得上“智能”人机交互吧？
+
+
+
+
+
+

@@ -7,6 +7,7 @@ import time
 import csv
 import sys
 #sys.path.append('../')
+import json
 
 from sqlhelper import sqlhelper1
 
@@ -110,6 +111,15 @@ if __name__ == '__main__':
    
     ahlib_url="http://opac.ahlib.com/opac/search"
     hflib_url="http://opac.hflib.gov.cn/lib2/search"
-    test_url = "http://opac.ahlib.com/opac/book/1900578490?index=1"
+    test_url = "http://opac.ahlib.com/opac/api/holding/1900578490"
     
-    get_all_book(ahlib_url)   
+    r = open_new_page(test_url)
+    data = json.loads(r.text)
+    books = data["holdingList"]
+    states = data["holdStateMap"]
+
+    for book in books:
+        book_sum = len(books)
+        bs = book['state']
+        book_state = states[str(bs)]['stateName']
+        print(book['barcode'], book_state)
