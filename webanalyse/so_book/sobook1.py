@@ -110,4 +110,6 @@ if __name__ == '__main__':
    
     ahlib_url="http://opac.ahlib.com/opac/search"
     hflib_url="http://opac.hflib.gov.cn/lib2/search"
-    get_all_book(hflib_url)   
+    test_url = "http://opac.ahlib.com/opac/book/1900578490?index=1"
+    
+    get_all_book(ahlib_url)   
