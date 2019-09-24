@@ -117,6 +117,7 @@ class State_machine:
             self.state = 0
             exit()
 
+
 if __name__ == "__main__":
     sm = State_machine()
     sm.state = 6
