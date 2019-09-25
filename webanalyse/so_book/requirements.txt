@@ -1,0 +1,6 @@
+pyaudio
+baidu_aip
+bs4
+ffmpeg
+
+

@@ -11,7 +11,7 @@ from sqlhelper import sqlhelper1
 
 BOOK_URL = "http://opac.ahlib.com/opac/api/holding/"
 SEARCH_URL = "http://opac.ahlib.com/opac/search"
-
+BOOKMETA_URL = 'http://api.interlib.com.cn:6699/interes/api/book/isbn/9787308090957/'
 
 def open_new_page(url,book_name='python'):
     ''' 打开新的查询页面,传入关键词 book_name,默认书名为 python
@@ -28,6 +28,19 @@ def open_new_page(url,book_name='python'):
     r = requests.get(url, param, headers=headers)
     bsObj = BeautifulSoup(r.text, "html.parser")
     return bsObj
+
+
+def open_new_page_url(url):
+
+    headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Itel Max OS X 10-9-5)\
+                             AppleWebKit 537.36 (KHTML, like Gecko) Chrome",
+               "Accept":"text/html, appliation/xhtml+xml, application/xml;\
+                        q=0.9,image/webp,*/*;q=0.8"}
+
+    r = requests.get(url, headers=headers)
+    bsObj = BeautifulSoup(r.text, "html.parser")
+    return bsObj
+
 
 def get_total_pages(bsObj):
     ''' 返回查询结果页面数量
@@ -95,18 +108,15 @@ def get_book_code(bsObj):
     books_trs = bsObj.find('table', calss_='resultTable')
     return books_trs
 
-def get_book(bsObj, book_num):
-    pagenum = get_total_pages(bsObj)
-    booknum = get_book_num(bsObj)
-    num_per_page = 10
-    pass
-
 def get_book_total_num(lib_url, book_name):
     ''' 获取图书检索系统中名称中包含bookd_name的书的数量
     '''
     bsObj = open_new_page(lib_url, book_name)
     return get_book_num(bsObj)
 
+def get_book_isbn(bsObj):
+    isbn = bsObj.find("img", class_="bookcover_img")['isbn']
+    return isbn
 
 def get_all_book(lib_url,book_name):
     ''' 获取图书检索系统中名称包含bookd_name的所有的书
@@ -174,7 +184,9 @@ def get_book_and_num(ahlib_url,book_name):
 def get_book_barcode(ahlib_url, book_name):
     bsObj = open_new_page(ahlib_url, book_name)
     inputs = bsObj.find_all("input")
-   
+    isbn = get_book_isbn(bsObj)
+    print(isbn)
+
     books_code = []
     for i in inputs:
         if i['type'] == "checkbox":
@@ -187,7 +199,7 @@ def get_book(bookname):
     barcode = get_book_barcode(SEARCH_URL, bookname)
     txt2 = get_book_state(BOOK_URL + barcode)
 #    print(txt1+txt2)
-    return txt1 + txt2
+    return txt1 + txt2, BOOK_URL + barcode
 
 if __name__ == '__main__':
 
