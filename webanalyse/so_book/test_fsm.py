@@ -34,7 +34,9 @@ SAY = {
         }
 
 def search(keyword):
-    return sobook2.get_book(keyword)
+    r,_ = sobook2.get_book(keyword)
+    print(r)
+    return r
 
 def say_init():
     return voice1.voice_init()
