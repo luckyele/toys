@@ -3,16 +3,28 @@
 import numpy as np
 
 
+# 计算loss函数
+# network_y 计算出来目标值，real_y为真实值
 def loss_der(network_y, real_y):
     return (network_y - real_y)
 
+# 激活函数 sigmoid()
 def sigmoid(z):
     return 1.0 / (1.0 + np.exp(-z))
 
+# 对激活函数求导
 def sigmoid_der(z):
     return sigmoid(z) * (1 - sigmoid(z))
 
+# 前向传播算法
+def feedForward(intput_a, weight, bias):
+    f = lambda x:1./1.+ np.exp(-x)
+    output_a = f(np.dot(weight, intput_a) + bias)
+    return output_a
+
+# 后向传播(BP)算法实现
 def backprog(x, y):
+    
     delta_w = [np.zeros(w.shape) for w in weights]
     delta_b = [np.zeros(b.shape) for b in biases]
 
@@ -47,39 +59,20 @@ def backprog(x, y):
         #BP4
         delta_w[-l] = np.dot(delta_l, activations[-l - 1].transpose())
     
-    print("delta_w = ", delta_w)
-    print("delta_b = ", delta_b)
-
     return (delta_w, delta_b)
 
+ 
 if __name__ == "__main__":
-    import csv
     data = np.loadtxt('mess.csv',delimiter=',')
-    print(data.shape)
-
-    #network_sizes = [3,4,2]
-    network_sizes = [51,4,4]
-
+    network_sizes = [51,75,4]
+    
     sizes = network_sizes
     num_layers = len(sizes)
     biases = [np.random.randn(h, 1) for h in sizes[1:]]
     weights = [np.random.randn(y, x) for x, y in zip(sizes[:-1], sizes[1:])]
-    print(num_layers)
-    print(weights)
-    print('\n')
-    print(biases)
-    print('\n')
-    print(data[0:50])
-
-   # training_x = np.random.rand(3).reshape(3,1)
-    training_x = np.array(data[0:50]).reshape[51,123]
-
-    #training_y = np.array([0,1]).reshape(2,1)
-
-    training_y = np.array(data[51]).reshape(12:4,1)
-
-
-    print("training data x:{}, training y:{}\n".format(training_x,training_y))
-
-    backprog(training_x,training_y)
+    
+    training_x = np.array(data[0:1,0:51]).reshape(51,1)
+    training_y = np.array([0,1,2,3]).reshape(4,1)
+    #print("training data x:{}, training y:{}\n".format(training_x, training_y))
+    w, b = backprog(training_x, training_y)
 
