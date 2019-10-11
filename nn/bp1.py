@@ -3,33 +3,41 @@
 import numpy as np
 import random
 import csv
+import time
+import matplotlib.pyplot as plt
 
 def nn_init():
     data = np.loadtxt('mess.csv', delimiter=',')
-    network_sizes = [46, 69, 4]
+    network_sizes = [data.shape[1]-1,2,4]
     sizes = network_sizes
     num_layers = len(sizes)
-
+    
     biases = [np.random.randn(h, 1) for h in sizes[1:]]
     weights = [np.random.randn(y, x) for x, y in zip(sizes[:-1], sizes[1:])]
     #print(biases, weights)
     return data, network_sizes, num_layers, biases, weights
+
+def to_one(data):
+
+    data = (data - np.mean(data, axis=0)) / np.std(data, axis=0)
+    return data
 
 # 计算loss函数
 def loss_der(network_y, real_y):
     return (network_y - real_y)
 
 def calculate_loss(model, X, y):
-    reg_lambda = 0.0001
+    reg_lambda = 0.001
     num_example = len(X)
     probs = forward_proga(model, X)
     #print(probs)
 
     #### something eror.
-    corect_logprobs = -np.log(probs - y + 1e-10)
+    corect_logprobs = -np.log(probs -y  + 1e-10)
 
     data_loss = np.sum(corect_logprobs)
 
+    # 正则化
     data_loss += reg_lambda / 2 * (np.sum(np.square(model['w1'])) + np.sum(np.square(model['w2'])))
     return 1. / num_example * data_loss
 
@@ -73,10 +81,8 @@ def backprog(x, y, weights, biases, num_layers):
 
     #BP1
     delta_L = loss_der(activations[-1], y) * sigmoid_der(zs[-1])
-
     #BP3
     delta_b[-1] = delta_L
-
     #BP4
     delta_w[-1] = np.dot(delta_L, activations[-2].transpose())
     delta_l = delta_L
@@ -93,19 +99,30 @@ def backprog(x, y, weights, biases, num_layers):
     
     return (delta_w, delta_b)
 
-def save_model(model, t, r):
-    '''保存模型（参数）、测试准确率'''
-    with open('result%d.csv'%t,'w') as f:
+def save_model(model):
+    '''保存模型（参数）'''
+    with open('result%d.csv'%time.time(),'w') as f:
         f_csv = csv.writer(f)
         f_csv.writerow(model['w1'])
         f_csv.writerow(model['b1'])
         f_csv.writerow(model['w2'])
         f_csv.writerow(model['b2'])
-        f_csv.writerow("%.2f"%r)
+
+def split_dataset(data):
+    train_num = int(data.shape[0] * 0.7)
+    s1 = slice(0,train_num)
+    s2 = slice(train_num, data.shape[0])
+    train_data = data[s1] 
+    test_data = data[s2]
+    return train_data, test_data
 
 def training():    
     # 训练初始化
+    learing_rate = 0.0001
     data, network_sizes, num_layers, biases, weights = nn_init()
+    train_data, test_data = split_dataset(data)
+    n_rows, n_cols =  train_data.shape
+    
     model = {}
     losses = []
     model['w1'] = weights[0]
@@ -113,48 +130,50 @@ def training():
     model['b1'] = biases[0]
     model['b2'] = biases[1]
 
-    training_times = int(data.shape[0] * 0.7)
-    test_times = data.shape[0] - training_times
-
     # 训练模型 学习率 0.01
-    for j in range(10000):
-        i = random.randint(0, training_times)
-        training_x = np.array(data[i][0:46]).reshape(46,1)
+    for j in range(200):
+        training_x = np.array(train_data[j % n_rows][0:n_cols-1]).reshape(n_cols-1,1)
         training_y = np.array([0,1,2,3]).reshape(4,1)
-        a = int(data[:,46][i])
+        a = int(train_data[:,n_cols-1][j % n_rows])
         l =  calculate_loss(model, training_x, a)
-        if j % 100  == 0:
-            print("iteration %d: loss %f" %(j, l))
-         
+        print("iteration %d: loss %f" %(j, l))
+        losses.append(l) 
+        
         weights, biases = backprog(training_x, training_y, weights, biases, num_layers)
         
-        model['w1'] += weights[0]*(-0.01)
-        model['w2'] += weights[1]*(-0.01)
-        model['b1'] += biases[0]*(-0.01)
-        model['b2'] += biases[1]*(-0.01)        
+        model['w1'] += weights[0]*(-learing_rate)
+        model['w2'] += weights[1]*(-learing_rate)
+        model['b1'] += biases[0]*(-learing_rate)
+        model['b2'] += biases[1]*(-learing_rate)        
 
-    # 测试模型并计算正确率
-    # j = 0 
-    # for i in range(test_times):
-    #     k = random.randint(101,121)
-    #     test_x = np.array(data[k][0:46]).reshape(46,1)
-    #     a = int(data[:,46][k])
-    #     b = int(predict(model, test_x))
-    #     #print(a,b)
 
-    #     if a == b:
-    #         j = j + 1
+        #保存模型及测试正确率
+#    save_model(model)
+    return losses
 
-    # rate = j / test_times * 100
-    # print("right rate:%.2f%%\n"%rate)
-   
-    
-    # #保存模型及测试正确率
-    # save_model(model, rate, rate)
+def test_preditc(model, test_data):
+    '''测试模型并计算正确率'''
+    j = 0
+    n_rows, n_cols =  test_data.shape
+    for i in range(n_rows-1):
+        td = np.array(test_data[i][0:n_cols-1]).reshape(n_cols-1,1)
+        a = int(test_data[:,n_cols-1][k])
+        b = int(predict(model, test_x))
+        #print(a,b)
+
+        if a == b:
+            j = j + 1
+
+    rate = j / n_rows * 100
+    print("right rate:%.2f%%\n"%rate)
+
 
 if __name__ == "__main__":
     
-    training()
-  
-
+    l = training()
+    plt.plot(l)
+    plt.show()
+  ##  train_data, _, _, _, _ = nn_init()
+  ##  a, b = split_train_dataset(train_data)
+  ##  print(a.shape, b.shape)
   
