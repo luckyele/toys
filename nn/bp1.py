@@ -4,6 +4,7 @@ import numpy as np
 import random
 import time
 import csv
+import matplotlib.pyplot as plt
 
 def nn_init():
     data = np.loadtxt('mess.csv',delimiter=',')
@@ -95,7 +96,6 @@ def save_model(model, t, r):
         f_csv.writerow("%.2f"%r)
 
 def training():
-
     # 训练初始化
     data, network_sizes, num_layers, biases, weights = nn_init()
     model = {}
@@ -107,14 +107,13 @@ def training():
     training_times = int(data.shape[0] * 0.8)
     test_times = data.shape[0] - training_times
 
-
     # 训练模型 学习率 0.01
     for j in range(70):
         i = random.randint(0, training_times)
         training_x = np.array(data[i][0:51]).reshape(51,1)
         training_y = np.array([0,1,2,3]).reshape(4,1)
         a = int(data[:,51][i])
-        l =  calculate_loss(model, training_x, a)
+        l =  calculate_loss(model, training_x, a)       
         weights, biases = backprog(training_x, training_y, weights, biases, num_layers)
         
         model['w1'] += weights[0]*(-0.01)
@@ -144,5 +143,3 @@ if __name__ == "__main__":
 
     for i in range(10000):
         training()
-    
-
