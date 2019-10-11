@@ -3,15 +3,17 @@
 import numpy as np
 import random
 import csv
+import matplotlib.pyplot as plt
 
 def nn_init():
-    data = np.loadtxt('mess.csv',delimiter=',')
-    network_sizes = [51,4,4]
+    data = np.loadtxt('mess.csv', delimiter=',')
+    network_sizes = [51, 4, 4]
     sizes = network_sizes
     num_layers = len(sizes)
 
     biases = [np.random.randn(h, 1) for h in sizes[1:]]
     weights = [np.random.randn(y, x) for x, y in zip(sizes[:-1], sizes[1:])]
+    #print(biases, weights)
     return data, network_sizes, num_layers, biases, weights
 
 # 计算loss函数
@@ -22,8 +24,12 @@ def calculate_loss(model, X, y):
     reg_lambda = 0.01
     num_example = len(X)
     probs = forward_proga(model, X)
-    corect_logprobs = -np.log(probs - y)
+    print(probs)
+
+    #### something eror.
+    corect_logprobs = -np.log(probs[range(num_example)])
     data_loss = np.sum(corect_logprobs)
+
     data_loss += reg_lambda / 2 * (np.sum(np.square(model['w1'])) + np.sum(np.square(model['w2'])))
     return 1. / num_example * data_loss
 
@@ -33,11 +39,13 @@ def forward_proga(model, x):
     a1 = np.tanh(z1)
     z2 = w2.dot(a1) + b2
     exp_scores = np.exp(z2)
-    return exp_scores
+    probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
+    return probs
 
 # 激活函数 sigmoid()
 def sigmoid(z):
     return 1.0 / (1.0 + np.exp(-z))
+    #return np.exp(z)/np.sum(np.exp(z))
 
 # 对激活函数求导
 def sigmoid_der(z):
@@ -128,7 +136,7 @@ def training():
         test_x = np.array(data[k][0:51]).reshape(51,1)
         a = int(data[:,51][k])
         b = int(predict(model, test_x))
-        print(a,b)
+        #print(a,b)
 
         if a == b:
             j = j + 1
