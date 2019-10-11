@@ -5,6 +5,16 @@ import random
 import time
 import csv
 
+def nn_init():
+    data = np.loadtxt('mess.csv',delimiter=',')
+    network_sizes = [51,4,4]
+    sizes = network_sizes
+    num_layers = len(sizes)
+
+    biases = [np.random.randn(h, 1) for h in sizes[1:]]
+    weights = [np.random.randn(y, x) for x, y in zip(sizes[:-1], sizes[1:])]
+    return data, network_sizes, num_layers, biases, weights
+
 # 计算loss函数
 def loss_der(network_y, real_y):
     return (network_y - real_y)
@@ -26,7 +36,6 @@ def forward_proga(model, x):
     exp_scores = np.exp(z2)
     return exp_scores
 
-
 # 激活函数 sigmoid()
 def sigmoid(z):
     return 1.0 / (1.0 + np.exp(-z))
@@ -39,7 +48,7 @@ def predict(model, x):
     return np.argmax(forward_proga(model, x)) 
 
 # 后向传播(BP)算法实现
-def backprog(x, y):
+def backprog(x, y, weights, biases, num_layers):
     
     delta_w = [np.zeros(w.shape) for w in weights]
     delta_b = [np.zeros(b.shape) for b in biases]
@@ -76,7 +85,7 @@ def backprog(x, y):
     return (delta_w, delta_b)
 
 def save_model(model, t, r):
-
+    '''保存模型（参数）、测试准确率'''
     with open('result%d.csv'%t,'w') as f:
         f_csv = csv.writer(f)
         f_csv.writerow(model['w1'])
@@ -85,44 +94,55 @@ def save_model(model, t, r):
         f_csv.writerow(model['b2'])
         f_csv.writerow("%.2f"%r)
 
-if __name__ == "__main__":
-    data = np.loadtxt('mess.csv',delimiter=',')
-    network_sizes = [51,4,4]
-    sizes = network_sizes
-    num_layers = len(sizes)
+def training():
 
-    biases = [np.random.randn(h, 1) for h in sizes[1:]]
-    weights = [np.random.randn(y, x) for x, y in zip(sizes[:-1], sizes[1:])]
-    
+    # 训练初始化
+    data, network_sizes, num_layers, biases, weights = nn_init()
     model = {}
     model['w1'] = weights[0]
     model['w2'] = weights[1]
     model['b1'] = biases[0]
     model['b2'] = biases[1]
-    for j in range(80):
-        i = random.randint(0,60)
+
+    training_times = int(data.shape[0] * 0.8)
+    test_times = data.shape[0] - training_times
+
+
+    # 训练模型 学习率 0.01
+    for j in range(70):
+        i = random.randint(0, training_times)
         training_x = np.array(data[i][0:51]).reshape(51,1)
         training_y = np.array([0,1,2,3]).reshape(4,1)
         a = int(data[:,51][i])
         l =  calculate_loss(model, training_x, a)
-        weights, biases = backprog(training_x, training_y)
+        weights, biases = backprog(training_x, training_y, weights, biases, num_layers)
+        
         model['w1'] += weights[0]*(-0.01)
         model['w2'] += weights[1]*(-0.01)
         model['b1'] += biases[0]*(-0.01)
-        model['b2'] += biases[1]*(-0.01)
-        
+        model['b2'] += biases[1]*(-0.01)        
 
+    # 测试模型并计算正确率
     j = 0 
-    for i in range(20):
-        test_x = np.array(data[i][0:51]).reshape(51,1)
-        a = int(data[:,51][i])
+    for i in range(test_times):
+        k = random.randint(101,122)
+        test_x = np.array(data[k][0:51]).reshape(51,1)
+        a = int(data[:,51][k])
         b = int(predict(model, test_x))
         print(a,b)
 
         if a == b:
             j = j + 1
 
-    rate = j / 20 * 100
+    rate = j / test_times * 100
     print("right rate:%.2f%%\n"%rate)
     
-    save_model(model,time.time(),rate)
+    #保存模型及测试正确率
+    save_model(model, rate, rate)
+
+if __name__ == "__main__":
+
+    for i in range(10000):
+        training()
+    
+
