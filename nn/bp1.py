@@ -3,7 +3,6 @@
 import numpy as np
 import random
 import csv
-import matplotlib.pyplot as plt
 
 def nn_init():
     data = np.loadtxt('mess.csv', delimiter=',')
@@ -24,10 +23,10 @@ def calculate_loss(model, X, y):
     reg_lambda = 0.01
     num_example = len(X)
     probs = forward_proga(model, X)
-    print(probs)
+    #print(probs)
 
     #### something eror.
-    corect_logprobs = -np.log(probs[range(num_example)])
+    corect_logprobs = -np.log(probs - y)
     data_loss = np.sum(corect_logprobs)
 
     data_loss += reg_lambda / 2 * (np.sum(np.square(model['w1'])) + np.sum(np.square(model['w2'])))
