@@ -2,9 +2,7 @@
 
 import numpy as np
 import random
-import time
 import csv
-import matplotlib.pyplot as plt
 
 def nn_init():
     data = np.loadtxt('mess.csv',delimiter=',')
@@ -45,8 +43,8 @@ def sigmoid(z):
 def sigmoid_der(z):
     return sigmoid(z) * (1 - sigmoid(z))
 
-def predict(model, x):
-    return np.argmax(forward_proga(model, x)) 
+def predict(model, X):
+    return np.argmax(forward_proga(model, X)) 
 
 # 后向传播(BP)算法实现
 def backprog(x, y, weights, biases, num_layers):
@@ -95,10 +93,11 @@ def save_model(model, t, r):
         f_csv.writerow(model['b2'])
         f_csv.writerow("%.2f"%r)
 
-def training():
+def training():    
     # 训练初始化
     data, network_sizes, num_layers, biases, weights = nn_init()
     model = {}
+    losses = []
     model['w1'] = weights[0]
     model['w2'] = weights[1]
     model['b1'] = biases[0]
@@ -113,7 +112,8 @@ def training():
         training_x = np.array(data[i][0:51]).reshape(51,1)
         training_y = np.array([0,1,2,3]).reshape(4,1)
         a = int(data[:,51][i])
-        l =  calculate_loss(model, training_x, a)       
+        l =  calculate_loss(model, training_x, a)
+        losses.append(l)      
         weights, biases = backprog(training_x, training_y, weights, biases, num_layers)
         
         model['w1'] += weights[0]*(-0.01)
@@ -135,11 +135,15 @@ def training():
 
     rate = j / test_times * 100
     print("right rate:%.2f%%\n"%rate)
+   
     
     #保存模型及测试正确率
     save_model(model, rate, rate)
 
 if __name__ == "__main__":
-
+    
     for i in range(10000):
         training()
+  
+
+  
