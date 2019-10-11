@@ -26,7 +26,7 @@ def calculate_loss(model, X, y):
     #print(probs)
 
     #### something eror.
-    corect_logprobs = -np.log(probs - y)
+    corect_logprobs = -np.log(probs - y + 1e-10)
 
     data_loss = np.sum(corect_logprobs)
 
