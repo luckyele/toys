@@ -5,6 +5,7 @@ import random
 import csv
 import time
 import matplotlib.pyplot as plt
+import math
 
 def nn_init():
     data = np.loadtxt('mess.csv', delimiter=',')
@@ -27,13 +28,13 @@ def loss_der(network_y, real_y):
     return (network_y - real_y)
 
 def calculate_loss(model, X, y):
-    reg_lambda = 0.001
+    reg_lambda = 0.0001
     num_example = len(X)
     probs = forward_proga(model, X)
     #print(probs)
 
     #### something eror.
-    corect_logprobs = -np.log(probs -y  + 1e-10)
+    corect_logprobs = -np.log(probs - y )
 
     data_loss = np.sum(corect_logprobs)
 
@@ -118,7 +119,7 @@ def split_dataset(data):
 
 def training():    
     # 训练初始化
-    learing_rate = 0.0001
+    learing_rate = 0.001
     data, network_sizes, num_layers, biases, weights = nn_init()
     train_data, test_data = split_dataset(data)
     n_rows, n_cols =  train_data.shape
@@ -131,13 +132,14 @@ def training():
     model['b2'] = biases[1]
 
     # 训练模型 学习率 0.01
-    for j in range(200):
+    for j in range(6000):
         training_x = np.array(train_data[j % n_rows][0:n_cols-1]).reshape(n_cols-1,1)
         training_y = np.array([0,1,2,3]).reshape(4,1)
         a = int(train_data[:,n_cols-1][j % n_rows])
         l =  calculate_loss(model, training_x, a)
+        if 
+        losses.append(l)
         print("iteration %d: loss %f" %(j, l))
-        losses.append(l) 
         
         weights, biases = backprog(training_x, training_y, weights, biases, num_layers)
         
@@ -145,11 +147,9 @@ def training():
         model['w2'] += weights[1]*(-learing_rate)
         model['b1'] += biases[0]*(-learing_rate)
         model['b2'] += biases[1]*(-learing_rate)        
-
-
-        #保存模型及测试正确率
-#    save_model(model)
-    return losses
+        
+        
+    return losses, model
 
 def test_preditc(model, test_data):
     '''测试模型并计算正确率'''
@@ -170,7 +170,7 @@ def test_preditc(model, test_data):
 
 if __name__ == "__main__":
     
-    l = training()
+    l, model = training()
     plt.plot(l)
     plt.show()
   ##  train_data, _, _, _, _ = nn_init()
