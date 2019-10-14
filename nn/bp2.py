@@ -15,7 +15,7 @@ def nn_init():
     # 设置神经网络每层节点个数
     # data.shape[1] 返回data列数；-1,是因为最后一列是目标值
     i = data.shape[1]-1
-    network_sizes = [i,10,4]
+    network_sizes = [i,int(i*1.5),4]
     
     # num_layers为神经网络层数;sizes为神经网络结构
     sizes = network_sizes
@@ -40,47 +40,54 @@ def loss_der(network_y, real_y):
 
 def calculate_loss(model, X, y):
     '''计算损失函数'''
-
     reg_lambda = 0.01
     num_example = len(X)
 
     #利用前向反馈计算出预测值probs    
     probs = forward_proga(model, X)
-
-    #计算损失值### something eror.
-    corect_logprobs = -np.log(probs - y + 10e-9)
-    data_loss = np.sum(corect_logprobs)
-   # data_loss = np.sum(probs)
-    #print(data_loss)
+  
+    #计算损失值 
+    data_loss = -np.sum(np.log(probs) * y)
+    
     # 对损失值进行归一化
     data_loss += reg_lambda / 2 * (np.sum(np.square(model['w1'])) + np.sum(np.square(model['w2'])))
     return 1. / num_example * data_loss
-
-
 
 def forward_proga(model, x):
     w1, b1, w2, b2 = model['w1'], model['b1'], model['w2'], model['b2']
     z1 = w1.dot(x) + b1
     a1 = np.tanh(z1)
     z2 = w2.dot(a1) + b2
+    #Softmax 激活函数
     exp_scores = np.exp(z2)
-    probs = exp_scores / np.sum(exp_scores +10e-9)
+    probs = exp_scores / np.sum(exp_scores + 10e-9)
     return probs
 
 def predict(model, X):
     return np.argmax(forward_proga(model, X)) 
 
-# 激活函数 sigmoid()
+# 激活函数softmax()
+def softmax(z):
+    return np.exp(z) / np.sum(np.exp(z))
+
+# 对激活函数softmax()求导
+def softmax_der(z):
+    return -np.sum(np.log(z))
+
+# 激活函数sigmoid
 def sigmoid(z):
     return 1.0 / (1.0 + np.exp(-z))
 
-# 对激活函数求导
+# 对激活函数sigmoid求导
 def sigmoid_der(z):
     return sigmoid(z) * (1 - sigmoid(z))
 
+# 对激活函数 tanh()求导
+def tanh_der(z):
+    return 1. - np.power(np.tanh(z), 2)
+
 # 后向传播(BP)算法实现
 def backprog(x, y, weights, biases, num_layers):
-    
     delta_w = [np.zeros(w.shape) for w in weights]
     delta_b = [np.zeros(b.shape) for b in biases]
 
@@ -91,11 +98,13 @@ def backprog(x, y, weights, biases, num_layers):
     for w, b in zip(weights, biases):
         z = np.dot(w, activation) + b
         activation = sigmoid(z)
+        #activation = np.tanh(z)
         activations.append(activation)
         zs.append(z)
 
     #BP1
     delta_L = loss_der(activations[-1], y) * sigmoid_der(zs[-1])
+    #delta_L = tanh_der(zs[-1])
     #BP3
     delta_b[-1] = delta_L
     #BP4
@@ -106,6 +115,7 @@ def backprog(x, y, weights, biases, num_layers):
         #BP2
         z = zs[-l]
         sp = sigmoid_der(z)
+#        sp = tanh_der(z)
         delta_l = np.dot(weights[-l + 1].transpose(), delta_l) * sp
         #BP3
         delta_b[-l] = delta_l
@@ -124,7 +134,7 @@ def save_model(model):
         f_csv.writerow(model['b2'])
 
 def split_dataset(data):
-    train_num = int(data.shape[0] * 0.7)
+    train_num = int(data.shape[0] * 0.6)
     s1 = slice(0, train_num)
     s2 = slice(train_num, data.shape[0])
     train_data = data[s1]
@@ -137,7 +147,7 @@ def pre_train():
     return train_data, test_data, network_sizes, num_layers, biases,weights
 
 def training(train_data, network_sizes, num_layers, biases, weights):
-    learing_rate = 0.01
+    learing_rate = 0.001
     n_rows, n_cols =  train_data.shape
     
     model = {}
@@ -146,7 +156,7 @@ def training(train_data, network_sizes, num_layers, biases, weights):
     
     # 训练
     i = 0
-    for j in range(10000):
+    for j in range(1000):
         k = np.random.randint(n_rows)
         X = np.array(train_data[k][0:n_cols-1]).reshape(n_cols-1,1)
         y_true = train_data[k][n_cols-1]
@@ -183,18 +193,19 @@ def test_predict(model, test_data):
             j = j + 1
 
     rate = j / n_rows * 100
-    #print("right rate:%.2f%%\n"%rate)
+    print("right rate:%.2f%%\n"%rate)
     return rate
 
 if __name__ == "__main__":
     
     rates=[]
 
-    for i in range(10):
+    for i in range(5):
         train_data, test_data, network_sizes, num_layers, b, w = pre_train()
         losses, model = training(train_data, network_sizes, num_layers, b, w)
         rate = test_predict(model, test_data)
         rates.append(rate)
-    print(rates,np.mean(rates))
+        plt.plot(losses)
+        plt.show()
     plt.plot(rates)
     plt.show()      
