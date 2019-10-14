@@ -1,5 +1,4 @@
 # 定义神经网络的模型架构
-
 import numpy as np
 import random
 import csv
@@ -49,12 +48,15 @@ def calculate_loss(model, X, y):
     probs = forward_proga(model, X)
 
     #计算损失值### something eror.
-    corect_logprobs = -np.log(probs - y + 10e-9)
-    data_loss = np.sum(corect_logprobs)
-
+   # corect_logprobs = -np.log(probs - y + 10e-9)
+   # data_loss = np.sum(corect_logprobs)
+    data_loss = np.sum(probs)
+    print(data_loss)
     # 对损失值进行归一化
     data_loss += reg_lambda / 2 * (np.sum(np.square(model['w1'])) + np.sum(np.square(model['w2'])))
     return 1. / num_example * data_loss
+
+
 
 def forward_proga(model, x):
     w1, b1, w2, b2 = model['w1'], model['b1'], model['w2'], model['b2']
@@ -122,21 +124,12 @@ def save_model(model):
         f_csv.writerow(model['b2'])
 
 def split_dataset(data):
-    train_num = int(data.shape[0] * 0.8)
-    s1 = slice(0,train_num)
+    train_num = int(data.shape[0] * 0.7)
+    s1 = slice(0, train_num)
     s2 = slice(train_num, data.shape[0])
     train_data = data[s1]
     test_data = data[s2]
     return train_data, test_data
-
-def k_dataset(data, k=10):
-    
-    train_set = np.
-    drows = data.shape[0]
-    
-    for i in range(k):
-        
-
     
 def pre_train():
     data, network_sizes, num_layers, biases, weights = nn_init()
@@ -144,7 +137,7 @@ def pre_train():
     return train_data, test_data, network_sizes, num_layers, biases,weights
 
 def training(train_data, network_sizes, num_layers, biases, weights):
-    learing_rate = 1
+    learing_rate = 0.01
     n_rows, n_cols =  train_data.shape
     
     model = {}
@@ -161,11 +154,11 @@ def training(train_data, network_sizes, num_layers, biases, weights):
         if (math.isnan(loss_v) == False) and (math.isinf(loss_v) == False):
             print("iteration %d: loss: %.8f" %(j, loss_v))
             losses.append(loss_v)
-            if math.isclose(losses[i], 0):
-                print("loss:%.8f"%loss_v)
-                save_model(model)
-                break
-            i = i + 1
+            # if math.isclose(losses[i], 0):
+            #     print("loss:%.8f"%loss_v)
+            #     save_model(model)
+            #     break
+            # i = i + 1
         
         weights, biases = backprog(X, y_true, weights, biases, num_layers)
         model['w1'] += weights[0]*(-learing_rate)
@@ -182,26 +175,23 @@ def test_predict(model, test_data):
     for i in range(n_rows-1):
         X = np.array(test_data[i % n_rows][0:n_cols-1]).reshape(n_cols-1,1)
         y_true = int(test_data[:,n_cols-1][i%n_rows])
-        y_predict = predict(model, X)
+        y_pred = predict(model, X)
     
-        print(y_predict, y_true)
+        print(y_pred, y_true)
 
-        if y_true == y_predict:
+        if y_true == y_pred:
             j = j + 1
 
     rate = j / n_rows * 100
     print("right rate:%.2f%%\n"%rate)
-
+    return rate
 
 if __name__ == "__main__":
     
     train_data, test_data, network_sizes, num_layers, b, w = pre_train()
 
-    losses, model = training(train_data, network_sizes, num_layers, b, w)
-    test_predict(model, test_data)
-    plt.plot(losses)
-    plt.show() 
-  ##  train_data, _, _, _, _ = nn_init()
-  ##  a, b = split_train_dataset(train_data)
-  ##  print(a.shape, b.shape)
-  
+    for i in range(10):
+        losses, model = training(train_data, network_sizes, num_layers, b, w)
+        test_predict(model, test_data)
+        plt.plot(losses)
+        plt.show()         
