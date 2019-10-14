@@ -48,10 +48,10 @@ def calculate_loss(model, X, y):
     probs = forward_proga(model, X)
 
     #计算损失值### something eror.
-   # corect_logprobs = -np.log(probs - y + 10e-9)
-   # data_loss = np.sum(corect_logprobs)
-    data_loss = np.sum(probs)
-    print(data_loss)
+    corect_logprobs = -np.log(probs - y + 10e-9)
+    data_loss = np.sum(corect_logprobs)
+   # data_loss = np.sum(probs)
+    #print(data_loss)
     # 对损失值进行归一化
     data_loss += reg_lambda / 2 * (np.sum(np.square(model['w1'])) + np.sum(np.square(model['w2'])))
     return 1. / num_example * data_loss
@@ -146,7 +146,7 @@ def training(train_data, network_sizes, num_layers, biases, weights):
     
     # 训练
     i = 0
-    for j in range(8000):
+    for j in range(10000):
         k = np.random.randint(n_rows)
         X = np.array(train_data[k][0:n_cols-1]).reshape(n_cols-1,1)
         y_true = train_data[k][n_cols-1]
@@ -183,15 +183,18 @@ def test_predict(model, test_data):
             j = j + 1
 
     rate = j / n_rows * 100
-    print("right rate:%.2f%%\n"%rate)
+    #print("right rate:%.2f%%\n"%rate)
     return rate
 
 if __name__ == "__main__":
     
-    train_data, test_data, network_sizes, num_layers, b, w = pre_train()
+    rates=[]
 
     for i in range(10):
+        train_data, test_data, network_sizes, num_layers, b, w = pre_train()
         losses, model = training(train_data, network_sizes, num_layers, b, w)
-        test_predict(model, test_data)
-        plt.plot(losses)
-        plt.show()         
+        rate = test_predict(model, test_data)
+        rates.append(rate)
+    print(rates,np.mean(rates))
+    plt.plot(rates)
+    plt.show()      
