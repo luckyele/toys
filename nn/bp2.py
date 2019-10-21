@@ -15,7 +15,7 @@ def nn_init():
     # 设置神经网络每层节点个数
     # data.shape[1] 返回data列数；-1,是因为最后一列是目标值
     i = data.shape[1]-1
-    network_sizes = [i,10,4]
+    network_sizes = [i,4,4]
     
     # num_layers为神经网络层数;sizes为神经网络结构
     sizes = network_sizes
@@ -55,8 +55,6 @@ def calculate_loss(model, X, y):
     # 对损失值进行归一化
     data_loss += reg_lambda / 2 * (np.sum(np.square(model['w1'])) + np.sum(np.square(model['w2'])))
     return 1. / num_example * data_loss
-
-
 
 def forward_proga(model, x):
     w1, b1, w2, b2 = model['w1'], model['b1'], model['w2'], model['b2']
@@ -124,7 +122,7 @@ def save_model(model):
         f_csv.writerow(model['b2'])
 
 def split_dataset(data):
-    train_num = int(data.shape[0] * 0.7)
+    train_num = int(data.shape[0] * 0.6)
     s1 = slice(0, train_num)
     s2 = slice(train_num, data.shape[0])
     train_data = data[s1]
@@ -137,7 +135,7 @@ def pre_train():
     return train_data, test_data, network_sizes, num_layers, biases,weights
 
 def training(train_data, network_sizes, num_layers, biases, weights):
-    learing_rate = 0.01
+    learing_rate = 0.1
     n_rows, n_cols =  train_data.shape
     
     model = {}
@@ -146,7 +144,7 @@ def training(train_data, network_sizes, num_layers, biases, weights):
     
     # 训练
     i = 0
-    for j in range(10000):
+    for j in range(1000):
         k = np.random.randint(n_rows)
         X = np.array(train_data[k][0:n_cols-1]).reshape(n_cols-1,1)
         y_true = train_data[k][n_cols-1]
@@ -161,10 +159,10 @@ def training(train_data, network_sizes, num_layers, biases, weights):
             # i = i + 1
         
         weights, biases = backprog(X, y_true, weights, biases, num_layers)
-        model['w1'] += weights[0]*(-learing_rate)
-        model['w2'] += weights[1]*(-learing_rate)
-        model['b1'] += biases[0]*(-learing_rate)
-        model['b2'] += biases[1]*(-learing_rate)        
+        model['w1'] += (-learing_rate) * weights[0]
+        model['w2'] += (-learing_rate) * weights[1]
+        model['b1'] += (-learing_rate) * biases[0]
+        model['b2'] += (-learing_rate) * biases[1]
         
     return losses, model
 
@@ -190,11 +188,14 @@ if __name__ == "__main__":
     
     rates=[]
 
-    for i in range(10):
+    for i in range(5):
         train_data, test_data, network_sizes, num_layers, b, w = pre_train()
         losses, model = training(train_data, network_sizes, num_layers, b, w)
+        plt.plot(losses)
+        plt.show()
         rate = test_predict(model, test_data)
         rates.append(rate)
+        
     print(rates,np.mean(rates))
     plt.plot(rates)
     plt.show()      
