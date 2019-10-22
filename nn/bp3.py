@@ -19,7 +19,7 @@ def split_data(x):
 def train(X_tr, X_te):
 	X_train, y_train = split_data(X_tr)
 	X_test, y_test = split_data(X_te)
-	clf = MLPClassifier(solver='lbfgs',activation='logistic', alpha=1e-5, hidden_layer_sizes=(5,5),learning_rate_init=.03) 
+	clf = MLPClassifier(solver='lbfgs', activation='logistic', alpha=1e-5, hidden_layer_sizes=(1),learning_rate_init=5) 
 	# solver=lbfgs | relu
 
 	clf.fit(X_train, y_train)
@@ -37,12 +37,12 @@ def train(X_tr, X_te):
 	f1-score：二者均值。
 	supprot：每个标签的出现次数。	
 	'''
-
 def test():
 	
 	e = []
 	X_tr, X_te = data_init()
-	for i in range(1000):		
+	
+	for i in range(100):		
 		e.append(train(X_tr, X_te))		
 	plt.plot(e)
 	plt.show()
