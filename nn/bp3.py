@@ -32,7 +32,7 @@ def train(X_tr, X_te):
 
 	X_test, y_test = split_data(X_te)
 	X_test = m.fit_transform(X_test)
-	clf = MLPClassifier(solver='lbfgs', activation='logistic', alpha=1e-5, hidden_layer_sizes=(2,3),learning_rate_init=.01)
+	clf = MLPClassifier(solver='lbfgs', activation='logistic', alpha=1e-5, hidden_layer_sizes=(1,4),learning_rate_init=.01)
 
 	# clf.fit(X_train, y_train)
 
