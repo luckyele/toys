@@ -29,25 +29,16 @@ def train(X_tr, X_te):
 	X_train, y_train = split_data(X_tr)
 	m = MinMaxScaler()
 	X_train = m.fit_transform(X_train)
-
 	X_test, y_test = split_data(X_te)
 	X_test = m.fit_transform(X_test)
 	clf = MLPClassifier(solver='lbfgs', activation='logistic', alpha=1e-5, hidden_layer_sizes=(2,3),learning_rate_init=.01)
-
 	# clf.fit(X_train, y_train)
-
 	draw_learning_curve(clf, X_train, y_train)
-
 	# y_pred = clf.predict(X_test)
-
-
-
 	#print(classification_report(y_test, y_pred))
-	
 	# return clf.score(X_test, y_test)
 	# print(clf.n_layers_)
 	# return clf.loss_
-	
 	
 	'''
 	precision：关注于所有被预测为正（负）的样本中究竟有多少是正（负）。
@@ -56,17 +47,14 @@ def train(X_tr, X_te):
 	supprot：每个标签的出现次数。	
 	'''
 def test():
-	
-	
 	X_tr, X_te = data_init()
-	
 	for i in range(1):		
 		train(X_tr, X_te)
 	
 def draw_learning_curve(pipe_lr, X_train, y_train):
 	#case1：学习曲线
 	#构建学习曲线评估器，train_sizes：控制用于生成学习曲线的样本的绝对或相对数量
-	train_sizes,train_scores,test_scores=learning_curve(
+	train_sizes, train_scores, test_scores = learning_curve(
 		estimator=pipe_lr,
 		X=X_train,
 		y=y_train,
@@ -80,8 +68,8 @@ def draw_learning_curve(pipe_lr, X_train, y_train):
 	test_mean = np.mean(test_scores,axis=1)
 	test_std = np.std(test_scores,axis=1)
 	#绘制效果
-	plt.plot(train_sizes,train_mean,color='blue',marker='o',markersize=5,label='training accuracy')
-	plt.fill_between(train_sizes,train_mean+train_std,train_mean-train_std,alpha=0.15,color='blue')
+	plt.plot(train_sizes, train_mean, color='blue', marker='o', markersize=5, label='training accuracy')
+	plt.fill_between(train_sizes, train_mean + train_std, train_mean - train_std, alpha=0.15, color='blue')
 	# plt.plot(train_sizes,test_mean,color='green',linestyle='--',marker='s',markersize=5,label='test accuracy')
 	# plt.fill_between(train_sizes,test_mean+test_std,test_mean-test_std,alpha=0.15,color='green')
 	plt.grid()
