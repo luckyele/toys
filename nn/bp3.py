@@ -1,28 +1,25 @@
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-import numpy as np
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import classification_report
-
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import learning_curve
 from sklearn.model_selection import validation_curve
-
 from matplotlib import pyplot as plt
+
+import numpy as np
 import pandas
 
 # 引入数据
 def data_init():
 	datasets = np.loadtxt('mess.csv', delimiter=',')
-	X_train, X_test = train_test_split(datasets,test_size=0.3)
-	
-
+	X_train, X_test = train_test_split(datasets, test_size=0.3)
 	return X_train, X_test
 
 # 将数据中的Y值分割出来
 def split_data(x):
-	x1 = x[:,0:x.shape[1]-1]
-	x2 = x[:,-1]
+	x1 = x[:, 0:x.shape[1]-1]
+	x2 = x[:, 1]
 	return x1, x2
 
 def train(X_tr, X_te):
@@ -32,13 +29,13 @@ def train(X_tr, X_te):
 	X_test, y_test = split_data(X_te)
 	X_test = m.fit_transform(X_test)
 	clf = MLPClassifier(solver='lbfgs', activation='logistic', alpha=1e-5, hidden_layer_sizes=(2,3),learning_rate_init=.01)
-	# clf.fit(X_train, y_train)
-	draw_learning_curve(clf, X_train, y_train)
-	# y_pred = clf.predict(X_test)
+	clf.fit(X_train, y_train)
+	#draw_learning_curve(clf, X_train, y_train)
+	#y_pred = clf.predict(X_test)
 	#print(classification_report(y_test, y_pred))
 	# return clf.score(X_test, y_test)
 	# print(clf.n_layers_)
-	# return clf.loss_
+	return clf.loss_
 	
 	'''
 	precision：关注于所有被预测为正（负）的样本中究竟有多少是正（负）。

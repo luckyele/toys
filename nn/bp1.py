@@ -195,8 +195,8 @@ if __name__ == "__main__":
 
     losses, model = training(train_data, network_sizes, num_layers, b, w)
     test_predict(model, test_data)
-    plt.plot(losses)
-    plt.show() 
+   # plt.plot(losses)
+   # plt.show() 
   ##  train_data, _, _, _, _ = nn_init()
   ##  a, b = split_train_dataset(train_data)
   ##  print(a.shape, b.shape)
