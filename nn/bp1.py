@@ -151,7 +151,7 @@ def training(train_data, network_sizes, num_layers, biases, weights):
 
     # 训练
     i = 0
-    for j in range(1000):
+    for j in range(10000):
         k = np.random.randint(n_rows)
         X = np.array(train_data[k][0:n_cols-1]).reshape(n_cols-1,1)
         y_true = train_data[k][n_cols-1]
@@ -180,7 +180,7 @@ def test_predict(model, test_data):
         X = np.array(test_data[i % n_rows][0:n_cols-1]).reshape(n_cols-1,1)
         y_true = int(test_data[:,n_cols-1][i%n_rows])
         y_predict = predict(model, X)
-        print(y_predict, y_true)
+        #print(y_predict, y_true)
 
         if y_true == y_predict:
             j = j + 1
