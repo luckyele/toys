@@ -49,7 +49,7 @@ def test():
     tb =  obj.find("table", class_="lm_tabe")
     
     articles = tb.find_all("tr")
-
+    print(len(articles))
     for article in articles:
         row.append(web_site + article.td.a['href'][2:])
         row.append(article.td.a['title'])

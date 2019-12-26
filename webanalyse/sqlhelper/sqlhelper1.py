@@ -25,6 +25,15 @@ class SQLite:
         self.c.execute(sql_statement)
         self.conn.commit()
 
+    def select(self, url):
+        sql_statement = "SELECT * FROM " + self.table + " WHERE URL=\'" + url +"\'"
+        print(sql_statement)
+        v = self.c.execute(sql_statement)
+        if v is None:
+            return False
+        else:
+            return True
+
     def select_all(self):
         sql_statement = "SELECT * FROM " + self.table
         cursor = self.c.execute(sql_statement)
@@ -33,6 +42,9 @@ class SQLite:
 
     def close(self):
         self.conn.close()
+
+      
+
 
 def test():
     s = "mytest.db"
@@ -45,10 +57,13 @@ def test():
     sql = SQLite(s, t)
     sql.create_table()
 
+    r4 = "www.mct4.gov.cn"
+
     for r in [r1,r2,r3]:
         sql.insert_record(r)
     
     sql.select_all()
+        
     sql.close()
 
 if __name__ == "__main__" :
