@@ -91,7 +91,6 @@ def create_baiduyun_filelist():
     with open(f.get(), "w", encoding='utf-8') as fp:
         write_csv_file(file_dict, fp, "/")
 
-
 window = Tk()
 window.geometry('600x300')
 window.title('百度云文件列表生成工具')
