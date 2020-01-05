@@ -11,6 +11,7 @@ import requests
 class Web:
     def __init__(self):
         self.bsObj = None
+
     def open(self, page_url):
         r = requests.get(page_url)
             # requests package guess encoding content of page_url, sometime it will
@@ -42,11 +43,11 @@ def test():
 
     web_site = "http://www.mct.gov.cn/" 
     page_url = "http://www.mct.gov.cn/whzx/bnsj/ggwhs"
+
     w = Web()
     obj = w.open(page_url)
     tb =  obj.find("table", class_="lm_tabe")
     articles = tb.find_all("tr")
-
     for article in articles:
         row.append(web_site + article.td.a['href'][2:])
         row.append(article.td.a['title'])
