@@ -28,10 +28,23 @@ def train(X_tr, X_te):
 	X_train = m.fit_transform(X_train)
 	X_test, y_test = split_data(X_te)
 	X_test = m.fit_transform(X_test)
+<<<<<<< HEAD
+	clf = MLPClassifier(solver='lbfgs', activation='logistic', alpha=1e-5, hidden_layer_sizes=(1,4),learning_rate_init=.01)
+
+	# clf.fit(X_train, y_train)
+
+	draw_learning_curve(clf, X_train, y_train)
+
+	# y_pred = clf.predict(X_test)
+
+
+
+=======
 	clf = MLPClassifier(solver='lbfgs', activation='logistic', alpha=1e-5, hidden_layer_sizes=(2,3),learning_rate_init=.01)
 	clf.fit(X_train, y_train)
 	#draw_learning_curve(clf, X_train, y_train)
 	#y_pred = clf.predict(X_test)
+>>>>>>> db07300bdb347ffa87eacc77c4be06c943f1a270
 	#print(classification_report(y_test, y_pred))
 	# return clf.score(X_test, y_test)
 	# print(clf.n_layers_)
