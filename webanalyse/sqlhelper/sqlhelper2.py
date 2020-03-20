@@ -44,7 +44,7 @@ def test():
     sql = SQLite(s, t)
     sql.create_table()
     for i in range(100):
-        print('inser %d'%i)
+        print('insert %d'%i)
         sql.insert_record(r1)
     
     sql.select_all()
