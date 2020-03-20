@@ -15,11 +15,7 @@ def nn_init():
     # 设置神经网络每层节点个数
     # data.shape[1] 返回data列数；-1,是因为最后一列是目标值
     i = data.shape[1]-1
-<<<<<<< HEAD
-    network_sizes = [i,4,4]
-=======
     network_sizes = [i,int(i*1.5),4]
->>>>>>> 39f225640a39f4868a2c968d9c539908bbd4efe2
     
     # num_layers为神经网络层数;sizes为神经网络结构
     sizes = network_sizes
@@ -151,11 +147,7 @@ def pre_train():
     return train_data, test_data, network_sizes, num_layers, biases,weights
 
 def training(train_data, network_sizes, num_layers, biases, weights):
-<<<<<<< HEAD
     learing_rate = 0.1
-=======
-    learing_rate = 0.001
->>>>>>> 39f225640a39f4868a2c968d9c539908bbd4efe2
     n_rows, n_cols =  train_data.shape
     
     model = {}
@@ -215,12 +207,5 @@ if __name__ == "__main__":
         plt.show()
         rate = test_predict(model, test_data)
         rates.append(rate)
-<<<<<<< HEAD
-        
-    print(rates,np.mean(rates))
-=======
         plt.plot(losses)
         plt.show()
->>>>>>> 39f225640a39f4868a2c968d9c539908bbd4efe2
-    plt.plot(rates)
-    plt.show()      
