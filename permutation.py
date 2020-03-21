@@ -25,4 +25,6 @@ while():
     a, b  = r[i][2], r[i][3]
     if a*10+b >= 60:
         r.remove(r[i])
-print(r)
+
+for a in r:
+    print(a)
