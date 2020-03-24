@@ -32,7 +32,7 @@ def train(X_tr, X_te):
 	clf.fit(X_train, y_train)
 	#draw_learning_curve(clf, X_train, y_train)
 	#y_pred = clf.predict(X_test)
-	#print(classification_report(y_test, y_pred))
+	print(classification_report(y_test, y_pred))
 	# return clf.score(X_test, y_test)
 	# print(clf.n_layers_)
 	return clf.loss_
