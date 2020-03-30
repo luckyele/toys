@@ -1,11 +1,16 @@
 from django.http import HttpResponse
 import pandas as pd
-
+import os
 
 def read_data():
-    filename = "./20180521.xls"
+		file_name = "20180521.xls"
+		s = pd.read_excel(file_name,sheet_name=57,usecols="A:E",header=None)
+		return s
 
-	pass    
 
 def hello(request):
-    return HttpResponse("Hello, world!")
+		d = read_data()
+		s = ''
+		for c in d:
+				s += "<p> %s"%c
+		return HttpResponse(s)
