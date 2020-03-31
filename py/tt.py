@@ -1,6 +1,8 @@
 import random
 
 def gen_map():
+    '''random generate a map 10*10
+    '''
     a_map = [[0 for i in range(10)] for i in range(10)]
     
     for i in range(len(a_map)):

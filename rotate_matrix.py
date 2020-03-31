@@ -10,9 +10,13 @@ def clockwise_rotate_outmost_ring_one_step(i, j, r):
     global A
     if len(A) <= 1:
         return 
+<<<<<<< HEAD
     
     x_, y_ = A[r][j-1-r], A[i-1-r][r]
 
+=======
+    x_, y_ = A[r][j-1-r], A[i-1-r][r]
+>>>>>>> 61610f4dffa0efb3326a4166c6e64ee4a65e6ae2
     tmp1, tmp2 = x_, y_
     #print(tmp1, tmp2)
 
@@ -48,16 +52,22 @@ def clockwise_rotate_outmost_ring_one_step(i, j, r):
 if __name__ == "__main__":
     A = [[1,2,3,4,5],[4,5,6,7,8],[7,8,9,0,1],[1,2,3,4,5],[1,2,3,4,5]]
     #A = [[1,2],[3,4]]
+<<<<<<< HEAD
     
+=======
+>>>>>>> 61610f4dffa0efb3326a4166c6e64ee4a65e6ae2
     #A = [[1]]
     #A = []
     if len(A) > 1:
         m , n = len(A), len(A[0])
     print_matrix(A)
     i = 0
+<<<<<<< HEAD
    
     # rotate len(A)-1 times. 
     
+=======
+>>>>>>> 61610f4dffa0efb3326a4166c6e64ee4a65e6ae2
     for r in range(int(len(A)/2)):
         for i in range(len(A)-2*r-1):
             clockwise_rotate_outmost_ring_one_step(m, n, r)

@@ -48,6 +48,10 @@ def test():
     obj = w.open(page_url)
     tb =  obj.find("table", class_="lm_tabe")
     articles = tb.find_all("tr")
+<<<<<<< HEAD
+    print(len(articles))
+=======
+>>>>>>> d14a29eb8c251af4d9e8dd990b186639526aa634
     for article in articles:
         row.append(web_site + article.td.a['href'][2:])
         row.append(article.td.a['title'])

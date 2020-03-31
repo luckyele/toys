@@ -115,7 +115,8 @@ def menu1(contact):
     menu_bottom(contact)
 
 def del_person(contact):
-    index = raw_input("Which do you want to delete? ")
+
+    index = input("Which do you want to delete? ")
     try:
         index = int(index)
     except:
@@ -129,9 +130,13 @@ def del_person(contact):
     contact.del_person(p)
 
 def modify_person(contact):
-    index = raw_input("which do you want to modify? ")
-    name = raw_input("Name:")
-    tele = raw_input("Tele:")
+   # index = raw_input("which do you want to modify? ")
+   # name = raw_input("Name:")
+   # tele = raw_input("Tele:")
+    
+    index = input("which do you want to modify? ")
+    name = input("Name:")
+    tele = input("Tele:")
     contact.modify(int(index)-1, name, tele)
 
 def test1():
@@ -141,7 +146,7 @@ def test1():
     a = ''
 
     while 1:
-        a = raw_input()
+        a = input()
         print("Your input：%s"%a)
 
         if a is 'n' or a is 'N':
