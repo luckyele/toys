@@ -84,8 +84,7 @@ def get_all_book(lib_url, keyword):
     save_book(rows)
 '''
 
-if __name__ == '__main__':
-
+def test():
     ahlib_url="http://opac.ahlib.com/opac/search"
 
     c = voice1.voice_init()
@@ -116,3 +115,7 @@ if __name__ == '__main__':
         else:
             voice1.play_voice(c, "感谢使用，下次再见")
             exit()
+
+if __name__ == '__main__':
+    test()
+    
