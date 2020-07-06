@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from urllib.error import HTTPError
 import csv
 
-url = "http://www.ahwh.gov.cn/zwgk/bmdt/"
+url = "https://ct.ah.gov.cn/zwgk/bmdt/"
 
 def getObj(url):
 	try:
