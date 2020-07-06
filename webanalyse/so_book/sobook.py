@@ -6,6 +6,7 @@ import requests
 import time
 import csv
 import voice1
+import sobook2
 import os
 
 def get_book_num(bsObj):
@@ -83,8 +84,7 @@ def get_all_book(lib_url, keyword):
     save_book(rows)
 '''
 
-if __name__ == '__main__':
-
+def test():
     ahlib_url="http://opac.ahlib.com/opac/search"
 
     c = voice1.voice_init()
@@ -100,8 +100,10 @@ if __name__ == '__main__':
         kw1 = voice1.voice_input(c)
         if kw1 in {'是','是的','好','好的','嗯啊'}:
             voice1.play_voice(c, "好的，这就为您查询关于 %s 的书 "%kw)
-            text = get_all_book(ahlib_url, kw)
-            voice1.play_voice(c,text)
+            #text = get_all_book(ahlib_url, kw)
+            text = sobook2.get_book(kw)
+            print(text)
+            voice1.play_voice(c,text[0])
         else:
             voice1.play_voice(c,"你说是啥")
 
@@ -113,3 +115,7 @@ if __name__ == '__main__':
         else:
             voice1.play_voice(c, "感谢使用，下次再见")
             exit()
+
+if __name__ == '__main__':
+    test()
+    
