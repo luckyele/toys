@@ -203,4 +203,5 @@ def get_book(bookname):
     return txt1 + txt2, BOOK_URL + barcode
 
 if __name__ == '__main__':
-    print(get_book("朱自清"))
+
+    print(get_book("python"))
