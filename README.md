@@ -1,3 +1,3 @@
 # toys
 
-Codes are very simple.
+Code is fun.
