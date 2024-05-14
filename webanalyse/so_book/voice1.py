@@ -7,9 +7,9 @@ from aip import AipSpeech
 def voice_init():
     ''' Initial Baidu speech AI.
     '''
-    APP_ID='15613908'
-    API_KEY='s9nT12dLc9bsNuhsETLxR8TK'
-    SECRET_KEY='NcgoWKIWHuezK3k6N2OieWV7zvS1WcID'
+    APP_ID='...'
+    API_KEY='...'
+    SECRET_KEY='...'
 
     client = AipSpeech(APP_ID, API_KEY, SECRET_KEY)
     return client
